@@ -18,7 +18,7 @@ registerLocaleData(en);
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     IconsProviderModule,
     NgZorroAntdModule,
