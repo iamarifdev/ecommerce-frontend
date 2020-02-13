@@ -46,6 +46,8 @@
     </nz-header>
     <nz-content>
       <div class="inner-content">
+        <cart-opener [isOpened]="openCart" (toggle)="toggleCartContainer($event)"></cart-opener>
+        <cart-container [visible]="openCart" (closed)="toggleCartContainer($event)"></cart-container>
         <router-outlet></router-outlet>
       </div>
     </nz-content>

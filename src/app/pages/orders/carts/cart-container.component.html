@@ -1,0 +1,10 @@
+<nz-drawer
+  [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Cart"
+  (nzOnClose)="close()"
+>
+  <cart-item-counter></cart-item-counter>
+</nz-drawer>

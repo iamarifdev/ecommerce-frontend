@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   isCollapsed = false;
+
+  openCart = true;
+
+  toggleCartContainer(isOpened: boolean) {
+    this.openCart = isOpened;
+  }
 }
