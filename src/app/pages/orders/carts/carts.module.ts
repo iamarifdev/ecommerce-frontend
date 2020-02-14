@@ -1,29 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CartContainerComponent, CartItemCounterComponent } from './index';
+import { SharedModule } from '../../../shared/shared.module';
+import { CartItemComponent } from './cart-item.component';
+import { CartService } from './carts.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
-    ReactiveFormsModule,
-    NgZorroAntdModule,
-    BrowserAnimationsModule,
-    ScrollingModule,
-    DragDropModule
-  ],
-  declarations: [CartContainerComponent, CartItemCounterComponent],
-  exports: [CartContainerComponent]
+  imports: [SharedModule],
+  declarations: [CartContainerComponent, CartItemComponent, CartItemCounterComponent],
+  exports: [CartContainerComponent],
+  providers: [CartService]
 })
 export class CartsModule {}

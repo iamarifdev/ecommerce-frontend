@@ -3,12 +3,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'cart-item-counter',
   template: `
-    <nz-input-group nzCompact [nzSize]="'large'">
-      <button nz-button nzSize="large" nzType="default" (click)="handleDecrement()">
+    <nz-input-group nzCompact [nzSize]="size">
+      <button nz-button [nzSize]="size" nzType="default" (click)="handleDecrement()">
         <i nz-icon nzType="minus" nzTheme="outline"></i>
       </button>
       <input nz-input [ngModel]="counter" type="text" class="counter-value" [value]="counter" readonly="readonly" />
-      <button nz-button nzSize="large" nzType="default" (click)="handleIncrement()">
+      <button nz-button [nzSize]="size" nzType="default" (click)="handleIncrement()">
         <i nz-icon nzType="plus" nzTheme="outline"></i>
       </button>
     </nz-input-group>
@@ -16,7 +16,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styles: [
     `
       .counter-value {
-        width: 45px;
+        width: 35px;
         text-align: center;
       }
     `
@@ -25,8 +25,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class CartItemCounterComponent {
   public counter = 1;
   @Input() max?: number;
+  @Input() size = 'medium';
   @Output() increment: EventEmitter<number> = new EventEmitter();
   @Output() decrement: EventEmitter<number> = new EventEmitter();
+  @Output() count: EventEmitter<number> = new EventEmitter();
 
   handleIncrement() {
     if (this.max && this.counter === this.max) {
@@ -35,6 +37,7 @@ export class CartItemCounterComponent {
       ++this.counter;
       this.increment.emit(this.counter);
     }
+    this.count.emit(this.counter);
   }
 
   handleDecrement() {
@@ -45,5 +48,6 @@ export class CartItemCounterComponent {
       this.counter = counter;
       this.decrement.emit(this.counter);
     }
+    this.count.emit(this.counter);
   }
 }

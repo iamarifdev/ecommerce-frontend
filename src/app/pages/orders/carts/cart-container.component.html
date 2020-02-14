@@ -1,10 +1,19 @@
 <nz-drawer
-  [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px',
+    'background-color': 'ghostwhite'
+  }"
   [nzMaskClosable]="false"
   [nzWidth]="720"
   [nzVisible]="visible"
-  nzTitle="Cart"
+  nzTitle="Cart(2)"
   (nzOnClose)="close()"
 >
-  <cart-item-counter></cart-item-counter>
+  <cart-item [unitPrice]="1200" (updatePrice)="updateTotalPrice($event)"></cart-item>
+  <cart-item [unitPrice]="1000" (updatePrice)="updateTotalPrice($event)"></cart-item>
+  <div class="footer flex flex-row vertical-center end">
+    <p>Total Price: {{ grandTotalPrice }} TK</p>
+  </div>
 </nz-drawer>
