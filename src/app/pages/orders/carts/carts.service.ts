@@ -6,8 +6,17 @@ import { ICartProduct, ICart } from './models/cart.model';
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class CartsService {
   private cartProductsSubject = new BehaviorSubject<ICartProduct[]>([]);
+  private isCartOpen = false;
+
+  public get cartOpened() {
+    return this.isCartOpen;
+  }
+
+  public toggleCart() {
+    this.isCartOpen = !this.isCartOpen;
+  }
 
   addProduct(cartProduct: ICartProduct) {
     if (cartProduct) {

@@ -1,0 +1,7 @@
+<div class="flex flex-row wrap space-between">
+  <product-item
+    *ngFor="let product of productList"
+    [product]="product"
+    (addedToCart)="onAddProductToCart($event)"
+  ></product-item>
+</div>

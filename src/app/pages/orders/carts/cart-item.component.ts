@@ -1,27 +1,29 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { ICartProduct } from './models/cart.model';
+import { CartsService } from './carts.service';
 
 @Component({
   selector: 'cart-item',
   template: `
     <div class="flex flex-row vertical-center cart-item">
       <div class="flex flex-column">
-        <img class="product-image" [src]="imagePath" alt="Product Image" />
+        <img class="product-image" [src]="cartProduct?.imageUrl || defaultProductUrl" alt="Product Image" />
       </div>
       <div class="flex cell flex-column product-details">
         <div class="flex flex-row space-between">
           <div class="flex flex-column product-description">
-            <p>SPRINT Men's Sneaker</p>
-            <p>Color: Oranage</p>
-            <p>Size: 39</p>
+            <p>{{ cartProduct?.title }}</p>
+            <p>Color: {{ cartProduct?.color }}</p>
+            <p>Size: {{ cartProduct.size }}</p>
           </div>
           <div class="flex flex-column product-price">
             <p>Unit Price</p>
-            <p>TK. {{ unitPrice }}</p>
-            <cart-item-counter (count)="onCount($event)"></cart-item-counter>
+            <p>TK. {{ cartProduct?.unitPrice }}</p>
+            <cart-item-counter (count)="onUpdateCount($event)"></cart-item-counter>
           </div>
           <div class="flex flex-column product-price">
             <p>Total Price</p>
-            <p>TK. {{ totalPrice }}</p>
+            <p>TK. {{ cartProduct.totalPrice }}</p>
           </div>
         </div>
       </div>
@@ -59,24 +61,27 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
   ]
 })
 export class CartItemComponent implements OnInit {
-  @Input() imagePath = '/assets/images/products/default.jpeg';
-  @Input() unit = 1;
-  @Input() unitPrice: number;
-  @Output() updatePrice: EventEmitter<number> = new EventEmitter();
+  @Input() defaultProductUrl = '/assets/images/products/default.jpeg';
+  @Input() cartProduct: ICartProduct;
+  @Output() updateCartProduct: EventEmitter<ICartProduct> = new EventEmitter();
 
-  public totalPrice = 0;
+  constructor(private cartsService: CartsService) {}
 
   ngOnInit(): void {
-    this.calculatePrice(this.unit);
+    if (this.cartProduct) {
+      this.calculatePrice();
+    }
   }
 
-  onCount(unit: number) {
-    this.calculatePrice(unit);
+  onUpdateCount(unit: number) {
+    this.cartProduct.unit = unit;
+    this.calculatePrice();
+    this.cartsService.updateProduct(this.cartProduct);
+    this.updateCartProduct.emit(this.cartProduct);
   }
 
-  calculatePrice(unit: number) {
-    this.unit = unit;
-    this.totalPrice = unit * this.unitPrice;
-    this.updatePrice.emit(this.totalPrice);
+  private calculatePrice() {
+    const { unit, unitPrice } = this.cartProduct;
+    this.cartProduct.totalPrice = unit * unitPrice;
   }
 }

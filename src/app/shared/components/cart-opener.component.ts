@@ -22,6 +22,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
         ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         border-radius: 5px;
         padding: 20px;
+        z-index: 9;
       }
       .cart-opener i {
         font-size: 30px;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CartsService } from './pages/orders/carts/carts.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,13 @@ import { Component } from '@angular/core';
 export class AppComponent {
   isCollapsed = false;
 
-  openCart = true;
+  constructor(private cartsService: CartsService) {}
+
+  get openCart() {
+    return this.cartsService.cartOpened;
+  }
 
   toggleCartContainer(isOpened: boolean) {
-    this.openCart = isOpened;
+    this.cartsService.toggleCart();
   }
 }

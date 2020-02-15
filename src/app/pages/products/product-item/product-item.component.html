@@ -1,0 +1,14 @@
+<div class="flex cell mb-3 product-item">
+  <nz-card style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[addToWishList, addToCart]">
+    <nz-card-meta [nzTitle]="product?.title" [nzDescription]="product?.unitPrice"></nz-card-meta>
+  </nz-card>
+  <ng-template #coverTemplate>
+    <img alt="example" [src]="product?.imageUrl || defaultProductUrl" style="padding: 1px;" />
+  </ng-template>
+  <ng-template #addToWishList>
+    <i nz-icon nzType="heart" (click)="addProductToWishList()"></i>
+  </ng-template>
+  <ng-template #addToCart>
+    <i nz-icon nzType="shopping-cart" (click)="addProductToCart()"></i>
+  </ng-template>
+</div>

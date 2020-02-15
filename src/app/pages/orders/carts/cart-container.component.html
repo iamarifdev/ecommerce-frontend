@@ -8,12 +8,19 @@
   [nzMaskClosable]="false"
   [nzWidth]="720"
   [nzVisible]="visible"
-  nzTitle="Cart(2)"
+  [nzTitle]="cartTotalQuantity"
   (nzOnClose)="close()"
 >
-  <cart-item [unitPrice]="1200" (updatePrice)="updateTotalPrice($event)"></cart-item>
-  <cart-item [unitPrice]="1000" (updatePrice)="updateTotalPrice($event)"></cart-item>
+  <cart-item *ngFor="let cartProduct of cart?.products" [cartProduct]="cartProduct"></cart-item>
   <div class="footer flex flex-row vertical-center end">
-    <p>Total Price: {{ grandTotalPrice }} TK</p>
+    <p>Total Price: {{ cart?.total }} TK</p>
   </div>
 </nz-drawer>
+
+<ng-template #cartTotalQuantity>
+  <nz-badge [nzCount]="cart?.quantity">
+    <a class="head-example">
+      <i nz-icon nzType="shopping-cart"></i>
+    </a>
+  </nz-badge>
+</ng-template>
