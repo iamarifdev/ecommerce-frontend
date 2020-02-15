@@ -1,10 +1,15 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+
+import { CartsService } from '../../pages/orders/carts/carts.service';
+import { ICart } from '../../pages/orders/carts/models/cart.model';
 
 @Component({
   selector: 'cart-opener',
   template: `
     <div class="cart-opener" (click)="handleCartOpenerClick()">
-      <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+      <i nz-icon nzType="shopping-cart" nzTheme="outline">
+        <nz-badge [nzCount]="cart?.quantity"></nz-badge>
+      </i>
     </div>
   `,
   styles: [
@@ -28,12 +33,26 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
         font-size: 30px;
         color: white;
       }
+      nz-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
     `
   ]
 })
-export class CartOpenerComponent {
+export class CartOpenerComponent implements OnInit {
   @Output() toggle: EventEmitter<boolean> = new EventEmitter();
   @Input() isOpened = false;
+
+  public cart: ICart;
+
+  constructor(private cartsService: CartsService) {}
+
+  ngOnInit() {
+    this.cartsService.cart.subscribe(cartData => (this.cart = cartData));
+  }
+
   handleCartOpenerClick() {
     this.isOpened = !this.isOpened;
     this.toggle.emit(this.isOpened);

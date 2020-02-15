@@ -11,8 +11,9 @@
   [nzTitle]="cartTotalQuantity"
   (nzOnClose)="close()"
 >
+  <nz-empty *ngIf="!cart?.products?.length" [nzNotFoundContent]="'No products in cart'"></nz-empty>
   <cart-item *ngFor="let cartProduct of cart?.products" [cartProduct]="cartProduct"></cart-item>
-  <div class="footer flex flex-row vertical-center end">
+  <div *ngIf="cart?.products?.length" class="footer flex flex-row vertical-center end">
     <p>Total Price: {{ cart?.total }} TK</p>
   </div>
 </nz-drawer>
