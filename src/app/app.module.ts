@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { CartsModule } from './pages/orders/carts/carts.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StorageService } from './shared/services/storage.service';
+import { ApiService } from './shared/services/api.service';
 
 registerLocaleData(en);
 
@@ -21,7 +23,7 @@ registerLocaleData(en);
     AppRoutingModule,
     CartsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, ApiService, StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
