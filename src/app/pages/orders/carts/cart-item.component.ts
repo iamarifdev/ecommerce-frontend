@@ -61,7 +61,7 @@ import { CartsService } from './carts.service';
   ]
 })
 export class CartItemComponent implements OnInit {
-  @Input() defaultProductUrl = '/assets/images/products/default.jpeg';
+  @Input() defaultProductUrl = '/assets/images/products/default.jpg';
   @Input() cartProduct: ICartProduct;
   @Output() updateCartProduct: EventEmitter<ICartProduct> = new EventEmitter();
 

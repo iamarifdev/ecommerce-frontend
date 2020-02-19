@@ -8,10 +8,10 @@ export const pagesRoutes: Route[] = [
   },
   {
     path: 'home',
-    loadChildren: './welcome/welcome.module#WelcomeModule'
+    loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule)
   },
   {
     path: 'products',
-    loadChildren: './products/products.module#ProductsModule'
+    loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
   }
 ];

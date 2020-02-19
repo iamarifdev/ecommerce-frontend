@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICartProduct } from '../../orders/carts/models/cart.model';
+import { IProduct } from '../models/product.model';
 
 @Component({
   selector: 'product-item',
@@ -7,8 +8,8 @@ import { ICartProduct } from '../../orders/carts/models/cart.model';
   styleUrls: ['./product-item.component.scss']
 })
 export class ProductItemComponent implements OnInit {
-  defaultProductUrl = '/assets/images/products/default.jpeg';
-  @Input() product: any;
+  defaultProductUrl = '/assets/images/products/default.jpg';
+  @Input() product: IProduct;
   @Output() addedToCart: EventEmitter<ICartProduct> = new EventEmitter();
 
   constructor() {}
@@ -24,9 +25,9 @@ export class ProductItemComponent implements OnInit {
       id: this.product.id,
       title: this.product.title,
       unit: 1,
-      unitPrice: this.product.unitPrice,
-      totalPrice: this.product.unitPrice,
-      imageUrl: this.product.imageUrl
+      unitPrice: this.product.pricing.price,
+      totalPrice: this.product.pricing.price,
+      imageUrl: this.product.featureImageUrl
     };
     this.addedToCart.emit(cartProduct);
   }
