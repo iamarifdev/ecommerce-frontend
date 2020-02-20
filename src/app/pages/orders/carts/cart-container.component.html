@@ -19,9 +19,7 @@
 </nz-drawer>
 
 <ng-template #cartTotalQuantity>
-  <nz-badge [nzCount]="cart?.quantity">
-    <a class="head-example">
-      <i nz-icon nzType="shopping-cart"></i>
-    </a>
-  </nz-badge>
+  <i nz-icon nzType="shopping-cart" nzTheme="outline" class="shopping-cart">
+    <nz-badge [nzCount]="cart?.quantity"></nz-badge>
+  </i>
 </ng-template>

@@ -48,14 +48,14 @@ import { CartsService } from './carts.service';
       .product-price p {
         margin: 0;
         padding: 2px;
-        font-size: 15px;
+        font-size: 12px;
         font-weight: 700;
       }
       .product-description p:nth-child(1) {
-        font-size: 20px;
+        font-size: 14px;
       }
       .product-price p:nth-child(2) {
-        font-size: 18px;
+        font-size: 14px;
       }
     `
   ]

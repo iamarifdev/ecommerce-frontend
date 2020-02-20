@@ -7,14 +7,34 @@
   text-align: right;
   left: 0px;
   background: #fff;
-
   p {
     margin: 0;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
   }
 }
 
-nz-badge {
-  margin-right: 20px;
+.cart-container-head {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  background: #eee;
+  display: inline-block;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  i {
+    font-size: 30px;
+  }
+}
+
+.shopping-cart {
+  font-size: 30px;
+  nz-badge {
+    margin-right: 20px;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+  }
 }

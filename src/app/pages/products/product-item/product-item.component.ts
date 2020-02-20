@@ -24,6 +24,8 @@ export class ProductItemComponent implements OnInit {
     const cartProduct: ICartProduct = {
       id: this.product.id,
       title: this.product.title,
+      // demo
+      size: this.product.shippingDetail.sizes[0] || null,
       unit: 1,
       unitPrice: this.product.pricing.price,
       totalPrice: this.product.pricing.price,

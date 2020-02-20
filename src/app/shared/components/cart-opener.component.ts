@@ -15,6 +15,7 @@ import { ICart } from '../../pages/orders/carts/models/cart.model';
   styles: [
     `
       .cart-opener {
+        cursor: pointer;
         position: fixed;
         right: 0;
         top: calc(100vh - 55%);
@@ -26,7 +27,7 @@ import { ICart } from '../../pages/orders/carts/models/cart.model';
           #43cea2
         ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         border-radius: 5px;
-        padding: 20px;
+        padding: 10px;
         z-index: 9;
       }
       .cart-opener i {
@@ -35,8 +36,8 @@ import { ICart } from '../../pages/orders/carts/models/cart.model';
       }
       nz-badge {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 3px;
+        right: 3px;
       }
     `
   ]

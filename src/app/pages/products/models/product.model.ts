@@ -32,5 +32,5 @@ export interface IShippingDetail {
   width: number;
   height: number;
   depth: number;
-  size: number;
+  sizes: number[];
 }

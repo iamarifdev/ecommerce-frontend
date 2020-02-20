@@ -3,7 +3,12 @@
     <nz-card-meta [nzTitle]="product?.title" [nzDescription]="product?.pricing?.price"></nz-card-meta>
   </nz-card>
   <ng-template #coverTemplate>
-    <img alt="example" [src]="product?.featureImageUrl || defaultProductUrl" style="padding: 1px;" />
+    <img
+      [defaultImage]="defaultProductUrl"
+      [lazyLoad]="product?.featureImageUrl"
+      style="padding: 1px;"
+      [alt]="product?.title"
+    />
   </ng-template>
   <ng-template #addToWishList>
     <i nz-icon nzType="heart" (click)="addProductToWishList()"></i>
