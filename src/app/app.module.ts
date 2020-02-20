@@ -1,3 +1,4 @@
+import { AsyncService } from './shared/services/async.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -23,7 +24,7 @@ registerLocaleData(en);
     AppRoutingModule,
     CartsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, ApiService, StorageService],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, ApiService, StorageService, AsyncService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

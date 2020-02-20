@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../../../app/shared/services/api.service';
 import { ApiPaginatedResponse } from '../../../app/models';
 import { IProduct } from './models/product.model';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'

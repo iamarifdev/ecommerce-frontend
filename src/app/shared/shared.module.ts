@@ -7,9 +7,10 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { MenuFoldOutline, MenuUnfoldOutline, FormOutline, DashboardOutline } from '@ant-design/icons-angular/icons';
-import { NZ_ICONS, NgZorroAntdModule, NzDrawerModule, NzCardModule, NzEmptyModule } from 'ng-zorro-antd';
+import { NZ_ICONS, NgZorroAntdModule, NzDrawerModule, NzCardModule, NzEmptyModule, NzSpinModule } from 'ng-zorro-antd';
 
 import { CartOpenerComponent } from './components/cart-opener.component';
+import { OverlayLoaderComponent } from './components/overlay-loader.component';
 const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
 
 @NgModule({
@@ -26,9 +27,10 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     NzGridModule,
     NzDrawerModule,
     NzCardModule,
-    NzEmptyModule
+    NzEmptyModule,
+    NzSpinModule
   ],
-  declarations: [CartOpenerComponent],
+  declarations: [CartOpenerComponent, OverlayLoaderComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -43,7 +45,9 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     NzDrawerModule,
     NzCardModule,
     NzEmptyModule,
-    CartOpenerComponent
+    NzSpinModule,
+    CartOpenerComponent,
+    OverlayLoaderComponent
   ],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
