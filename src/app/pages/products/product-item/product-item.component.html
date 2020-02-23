@@ -9,6 +9,9 @@
       style="padding: 1px;"
       [alt]="product?.title"
     />
+    <div class="colors">
+      <div *ngFor="let color of product?.colors" class="color-box" [style.background-color]="color"></div>
+    </div>
   </ng-template>
   <ng-template #addToWishList>
     <i nz-icon nzType="heart" (click)="addProductToWishList()"></i>

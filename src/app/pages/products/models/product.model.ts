@@ -15,7 +15,6 @@ export interface IProduct {
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
-  modifiedOn: Date;
 }
 
 export interface IManufactureDetail {
@@ -28,9 +27,9 @@ export interface IPricing {
 }
 
 export interface IShippingDetail {
-  weight: number;
-  width: number;
-  height: number;
-  depth: number;
+  weight?: number;
+  width?: number;
+  height?: number;
+  depth?: number;
   sizes: number[];
 }

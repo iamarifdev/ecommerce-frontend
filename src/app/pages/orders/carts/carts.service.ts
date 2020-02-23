@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { ApiService } from '../../../shared/services/api.service';
 import { ICartProduct, ICart } from './models/cart.model';
 
 @Injectable({
@@ -9,6 +11,8 @@ import { ICartProduct, ICart } from './models/cart.model';
 export class CartsService {
   private cartProductsSubject = new BehaviorSubject<ICartProduct[]>([]);
   private isCartOpen = false;
+
+  constructor(private apiService: ApiService) {}
 
   public get cartOpened() {
     return this.isCartOpen;

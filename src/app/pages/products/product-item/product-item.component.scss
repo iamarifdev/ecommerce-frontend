@@ -1,3 +1,18 @@
 .anticon {
   font-size: 24px !important;
 }
+
+.colors {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: row wrap;
+  align-items: flex-start;
+  padding: 10px 15px;
+  .color-box {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border: 1px solid black;
+  }
+}
