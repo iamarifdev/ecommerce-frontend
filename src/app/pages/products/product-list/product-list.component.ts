@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { IProduct } from '../models/product.model';
 import { ICartProduct } from '../../orders/carts/models/cart.model';
 import { ProductsService } from '../products.service';
 import { CartsService } from '../../orders/carts/carts.service';
 import { AsyncService } from '../../../shared/services/async.service';
-import { Subscription } from 'rxjs';
+import { IProductListItem } from '../models';
+import { ProductAddComponent } from '../product-add/product-add.component';
 
 @Component({
   selector: 'product-list',
@@ -14,13 +16,14 @@ import { Subscription } from 'rxjs';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   public productCount = 0;
-  public productList: IProduct[] = [];
+  public productList: IProductListItem[] = [];
 
   public productListSub: Subscription;
   constructor(
     public asynService: AsyncService,
     private productsService: ProductsService,
-    private cartsService: CartsService
+    private cartsService: CartsService,
+    private modalService: NzModalService
   ) {}
 
   ngOnInit() {
@@ -44,12 +47,29 @@ export class ProductListComponent implements OnInit, OnDestroy {
     );
   }
 
-  onAddProductToCart(cartProduct: ICartProduct): void {
-    this.cartsService.addProduct(cartProduct);
-    this.cartsService.toggleCart();
+  onAddProductToCart(productItem: IProductListItem): void {
+    // this.cartsService.addProduct(cartProduct);
+    // this.cartsService.toggleCart();
+    const modelRef = this.modalService.create({
+      nzWrapClassName: 'vertical-center-modal',
+      nzContent: ProductAddComponent,
+      nzWidth: 750,
+      nzComponentParams: {
+        title: 'title in component',
+        productItem
+      },
+      nzFooter: [
+        {
+          label: 'change component title from outside',
+          onClick: componentInstance => {
+            componentInstance!.title = 'title in inner component is changed';
+          }
+        }
+      ]
+    });
   }
 
   ngOnDestroy(): void {
     if (this.productListSub) this.productListSub.unsubscribe();
   }
- }
+}

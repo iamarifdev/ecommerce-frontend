@@ -32,13 +32,18 @@
                 "output": "/assets/"
               }
             ],
-            "styles": [
-              "src/theme.less",
-              "src/styles.scss"
-            ],
+            "styles": ["src/theme.less", "src/styles.scss"],
             "scripts": []
           },
           "configurations": {
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -76,6 +81,11 @@
             "browserTarget": "ecommerce-frontend:build"
           },
           "configurations": {
+            "hmr": {
+              "hmrWarning": false,
+              "hmr": true,
+              "browserTarget": "ecommerce-frontend:build:hmr"
+            },
             "production": {
               "browserTarget": "ecommerce-frontend:build:production"
             }
@@ -94,27 +104,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json"],
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

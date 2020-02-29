@@ -1,8 +1,8 @@
 <div class="flex flex-row wrap product-container">
   <overlay-loader [loading]="asynService?.loading"></overlay-loader>
   <product-item
-    *ngFor="let product of productList"
-    [product]="product"
+    *ngFor="let item of productList"
+    [productItem]="item"
     (addedToCart)="onAddProductToCart($event)"
   ></product-item>
 </div>

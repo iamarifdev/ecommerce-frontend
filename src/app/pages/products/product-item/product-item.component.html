@@ -1,17 +1,15 @@
 <div class="flex cell mb-3 product-item">
   <nz-card style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[addToWishList, addToCart]">
-    <nz-card-meta [nzTitle]="product?.title" [nzDescription]="product?.pricing?.price"></nz-card-meta>
+    <nz-card-meta [nzTitle]="productItem?.title" [nzDescription]="productItem?.pricing?.price"></nz-card-meta>
   </nz-card>
   <ng-template #coverTemplate>
     <img
       [defaultImage]="defaultProductUrl"
-      [lazyLoad]="product?.featureImageUrl"
+      [lazyLoad]="productItem?.featureImageUrl"
       style="padding: 1px;"
-      [alt]="product?.title"
+      [alt]="productItem?.title"
     />
-    <div class="colors">
-      <div *ngFor="let color of product?.colors" class="color-box" [style.background-color]="color"></div>
-    </div>
+    <product-colors [productColors]="productItem?.productColors"></product-colors>
   </ng-template>
   <ng-template #addToWishList>
     <i nz-icon nzType="heart" (click)="addProductToWishList()"></i>

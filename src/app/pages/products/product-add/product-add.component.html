@@ -1,0 +1,20 @@
+<div class="flex flex-row">
+  <div class="flex flex-column product-image">
+    <img [defaultImage]="defaultProductUrl" [lazyLoad]="product?.featureImageUrl" [alt]="product?.title" />
+  </div>
+  <div class="flex flex-column product-info">
+    <h2>{{ product?.title | uppercase }}</h2>
+    <h3>{{ product?.description | titlecase }}</h3>
+
+    <h2>Tk {{ product?.pricing?.price }}</h2>
+    <h3 class="mb-0">Colors *</h3>
+    <product-colors [productColors]="product?.productColors" [(color)]="selectedColor"></product-colors>
+
+    <div *ngIf="selectedColor">
+      <h3 class="mb-0">Sizes</h3>
+      <nz-select [(ngModel)]="selectedSize" nzPlaceHolder="Choose Size">
+        <nz-option *ngFor="let size of selectedColor.sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+</div>
