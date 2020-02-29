@@ -14,11 +14,10 @@ export class ProductAddComponent implements OnInit {
   @Input() title: string;
   @Input() productItem: IProductListItem;
 
-  product: IProduct;
-
-  defaultProductUrl = DEFAULT_PRODUCT_URL;
-  selectedSize: number;
-  selectedColor: IProductColor;
+  public defaultProductUrl = DEFAULT_PRODUCT_URL;
+  public selectedSize: number;
+  public product: IProduct;
+  public selectedColor: IProductColor;
 
   constructor(private asyncService: AsyncService, private productService: ProductsService) {
     this.product = { ...this.productItem };
