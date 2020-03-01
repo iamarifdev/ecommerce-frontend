@@ -3,10 +3,10 @@
     <image-zoom-viewer [height]="400" [width]="400" [imageUrl]="product?.featureImageUrl"></image-zoom-viewer>
   </div>
   <div class="flex flex-column product-info">
-    <h2>{{ product?.title | uppercase }}</h2>
+    <h2 class="bold">{{ product?.title | uppercase }}</h2>
     <h3>{{ product?.description | titlecase }}</h3>
 
-    <h2>Tk {{ product?.pricing?.price }}</h2>
+    <h2 class="bold">Tk {{ product?.pricing?.price }}</h2>
     <h3 class="mb-0">Colors *</h3>
     <product-colors
       [productColors]="product?.productColors"
@@ -21,10 +21,20 @@
         <nz-select [(ngModel)]="selectedSize" nzSize="large">
           <nz-option *ngFor="let size of selectedColor.sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
         </nz-select>
-        <item-counter class="ml-1" [size]="'large'"></item-counter>
+        <item-counter class="ml-1" [size]="'large'" [(counter)]="quantity"></item-counter>
       </div>
     </div>
 
-    <button class="mt-1" nz-button [nzSize]="'large'" nzType="primary">Add to cart</button>
+    <button
+      nzBlock
+      class="mt-1"
+      nz-button
+      [nzSize]="'large'"
+      nzType="primary"
+      [nzGhost]="!isValidInfo"
+      (click)="addToCart()"
+    >
+      {{ 'Add to cart' | uppercase }}
+    </button>
   </div>
 </div>

@@ -4,6 +4,8 @@ import { IProductListItem, IProductColor, IProduct } from '../models';
 import { DEFAULT_PRODUCT_URL } from '../../../shared/constants';
 import { ProductsService } from '../products.service';
 import { AsyncService } from '../../../shared/services/async.service';
+import { CartsService } from '../../orders/carts/carts.service';
+import { ICartAddProduct } from '../../orders/carts/models';
 
 @Component({
   selector: 'product-add',
@@ -17,12 +19,36 @@ export class ProductAddComponent implements OnInit {
   public selectedSize: number;
   public product: IProduct;
   public selectedColor: IProductColor;
+  public quantity = 1;
 
-  constructor(private asyncService: AsyncService, private productService: ProductsService) {}
+  constructor(
+    private asyncService: AsyncService,
+    private productService: ProductsService,
+    private cartsService: CartsService
+  ) {}
+
+  get isValidInfo() {
+    if (!this.selectedColor) return false;
+    if (!this.selectedSize) return false;
+    // check more fields
+    return true;
+  }
 
   ngOnInit(): void {
     this.product = { ...this.productItem };
     this.getProduct();
+  }
+
+  addToCart(): void {
+    const productToAdd: ICartAddProduct = {
+      color: this.selectedColor.colorCode,
+      quantity: this.quantity,
+      size: this.selectedSize,
+      productId: this.product.id
+      // todo add customer id if customer is logged in
+    };
+    console.log('productToAdd', productToAdd);
+    this.cartsService.addProduct(productToAdd);
   }
 
   onSelectColor(productColor: IProductColor) {

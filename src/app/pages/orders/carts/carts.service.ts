@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { ApiService } from '../../../shared/services/api.service';
 import { ICartProduct, ICart } from './models/cart.model';
+import { ICartAddProduct } from './models';
+import { ApiResponse } from 'src/app/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartsService {
-  private cartProductsSubject = new BehaviorSubject<ICartProduct[]>([]);
+  private cartProductsSubject = new BehaviorSubject<ICart>({} as ICart);
   private isCartOpen = false;
 
   constructor(private apiService: ApiService) {}
@@ -22,41 +23,51 @@ export class CartsService {
     this.isCartOpen = !this.isCartOpen;
   }
 
-  addProduct(cartProduct: ICartProduct) {
-    if (cartProduct) {
-      const products = this.cartProductsSubject.value;
-      this.cartProductsSubject.next(products.concat([cartProduct]));
+  addProduct(product: ICartAddProduct) {
+    if (product) {
+      const subscription = this.apiService
+        .post<ApiResponse<ICart>>('/carts/add/product', product)
+        .subscribe(response => {
+          if (response.success && response.result) {
+            this.cartProductsSubject.next(response.result);
+            localStorage.setItem('cartId', response.result.id);
+          }
+          subscription.unsubscribe();
+        });
+
+      // const products = this.cartProductsSubject.value;
+      // this.cartProductsSubject.next(products.concat([cartProduct]));
     }
   }
 
   updateProduct(cartProduct: ICartProduct) {
-    if (cartProduct && cartProduct.id) {
-      const products = [...this.cartProductsSubject.value];
-      const index = products.findIndex(p => p.id === cartProduct.id);
-      if (index > -1) {
-        products[index] = cartProduct;
-        this.cartProductsSubject.next(products);
-      }
-    }
+    // if (cartProduct && cartProduct.id) {
+    //   const products = [...this.cartProductsSubject.value];
+    //   const index = products.findIndex(p => p.id === cartProduct.id);
+    //   if (index > -1) {
+    //     products[index] = cartProduct;
+    //     this.cartProductsSubject.next(products);
+    //   }
+    // }
   }
 
   get cart(): Observable<ICart> {
-    const products = this.cartProductsSubject.asObservable();
-    const cartData = products.pipe(
-      map(items => {
-        return items.reduce((aCart: ICart, item) => {
-          aCart.id = aCart.id || Date.now().toString();
-          aCart.quantity = aCart.quantity || 0;
-          aCart.quantity += item.unit;
-          aCart.products = aCart.products || [];
-          aCart.products.push(item);
-          aCart.status = aCart.status || 'active';
-          aCart.total = aCart.total || 0;
-          aCart.total += item.totalPrice;
-          return aCart;
-        }, {} as ICart);
-      })
-    );
-    return cartData;
+    return this.cartProductsSubject.asObservable();
+    // const cartData = products.pipe(
+    //   map(items => {
+    //     return items.reduce((aCart: ICart, item) => {
+    //       aCart.id = aCart.id || Date.now().toString();
+    //       aCart.quantity = aCart.quantity || 0;
+    //       aCart.quantity += item.unit;
+    //       aCart.products = aCart.products || [];
+    //       aCart.products.push(item);
+    //       aCart.status = aCart.status || 'active';
+    //       aCart.total = aCart.total || 0;
+    //       aCart.total += item.totalPrice;
+    //       return aCart;
+    //     }, {} as ICart);
+    //   })
+    // );
+    // return cartData;
   }
 }

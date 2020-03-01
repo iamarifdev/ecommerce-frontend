@@ -1,7 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
-/*
- * Custom Flexbox Helper Classes
- */
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+* {
+  font-family: 'Lato';
+}
+
 .flex {
   display: flex;
 

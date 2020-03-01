@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+
+import { DEFAULT_PRODUCT_URL } from './../constants/index';
 import { ICartProduct } from '../../pages/orders/carts/models/cart.model';
 import { CartsService } from '../../pages/orders/carts/carts.service';
 
@@ -61,7 +63,7 @@ import { CartsService } from '../../pages/orders/carts/carts.service';
   ]
 })
 export class CartItemComponent implements OnInit {
-  @Input() defaultProductUrl = '/assets/images/products/default.jpg';
+  @Input() defaultProductUrl = DEFAULT_PRODUCT_URL;
   @Input() cartProduct: ICartProduct;
   @Output() updateCartProduct: EventEmitter<ICartProduct> = new EventEmitter();
 
@@ -74,14 +76,14 @@ export class CartItemComponent implements OnInit {
   }
 
   onUpdateCount(unit: number) {
-    this.cartProduct.unit = unit;
+    this.cartProduct.quantity = unit;
     this.calculatePrice();
     this.cartsService.updateProduct(this.cartProduct);
     this.updateCartProduct.emit(this.cartProduct);
   }
 
   private calculatePrice() {
-    const { unit, unitPrice } = this.cartProduct;
-    this.cartProduct.totalPrice = unit * unitPrice;
+    const { quantity, unitPrice } = this.cartProduct;
+    this.cartProduct.totalPrice = quantity * unitPrice;
   }
 }

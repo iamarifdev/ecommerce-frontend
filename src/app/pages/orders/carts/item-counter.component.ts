@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'item-counter',
@@ -22,13 +22,19 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     `
   ]
 })
-export class ItemCounterComponent {
-  public counter = 1;
+export class ItemCounterComponent implements OnInit {
+  @Input() counter = 1;
   @Input() max?: number;
   @Input() size = 'medium';
   @Output() increment: EventEmitter<number> = new EventEmitter();
   @Output() decrement: EventEmitter<number> = new EventEmitter();
-  @Output() count: EventEmitter<number> = new EventEmitter();
+  @Output() counterChange: EventEmitter<number> = new EventEmitter();
+
+  ngOnInit(): void {
+    if (!this.counter) {
+      this.counter = 1;
+    }
+  }
 
   handleIncrement() {
     if (this.max && this.counter === this.max) {
@@ -37,7 +43,7 @@ export class ItemCounterComponent {
       ++this.counter;
       this.increment.emit(this.counter);
     }
-    this.count.emit(this.counter);
+    this.counterChange.emit(this.counter);
   }
 
   handleDecrement() {
@@ -48,6 +54,6 @@ export class ItemCounterComponent {
       this.counter = counter;
       this.decrement.emit(this.counter);
     }
-    this.count.emit(this.counter);
+    this.counterChange.emit(this.counter);
   }
 }

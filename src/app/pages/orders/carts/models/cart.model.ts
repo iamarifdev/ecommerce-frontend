@@ -1,15 +1,17 @@
 export interface ICart {
   id?: string;
+  customerId?: string;
   quantity: number;
   products: ICartProduct[];
   status: 'active' | 'inactive';
-  total: number;
+  totalPrice: number;
 }
 
 export interface ICartProduct {
-  id?: string;
+  productId: string;
+  sku: string;
   title: string;
-  unit: number;
+  quantity: number;
   unitPrice: number;
   totalPrice: number;
   color?: string;
