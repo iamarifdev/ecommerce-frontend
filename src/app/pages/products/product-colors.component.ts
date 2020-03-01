@@ -10,6 +10,8 @@ import { IProductColor } from './models';
         class="color-box"
         [class.active]="color?.colorCode === item.colorCode"
         [style.background-color]="item.colorCode"
+        [style.height.px]="size"
+        [style.width.px]="size"
         [nzTooltipTitle]="item.colorName"
         nzTooltipPlacement="top"
         nz-tooltip
@@ -28,8 +30,6 @@ import { IProductColor } from './models';
       }
       .color-box {
         display: flex;
-        width: 25px;
-        height: 25px;
         margin: 5px;
         border: 1px solid black;
         cursor: pointer;
@@ -43,5 +43,6 @@ import { IProductColor } from './models';
 export class ProductColorsComponent {
   @Input() productColors: IProductColor[];
   @Input() color: IProductColor;
+  @Input() size = 25;
   @Output() colorChange = new EventEmitter<IProductColor>();
 }

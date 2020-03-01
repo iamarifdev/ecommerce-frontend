@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ICartProduct } from './models/cart.model';
-import { CartsService } from './carts.service';
+import { ICartProduct } from '../../pages/orders/carts/models/cart.model';
+import { CartsService } from '../../pages/orders/carts/carts.service';
 
 @Component({
   selector: 'cart-item',
@@ -19,7 +19,7 @@ import { CartsService } from './carts.service';
           <div class="flex flex-column product-price">
             <p>Unit Price</p>
             <p>TK. {{ cartProduct?.unitPrice }}</p>
-            <cart-item-counter (count)="onUpdateCount($event)"></cart-item-counter>
+            <item-counter (count)="onUpdateCount($event)"></item-counter>
           </div>
           <div class="flex flex-column product-price">
             <p>Total Price</p>

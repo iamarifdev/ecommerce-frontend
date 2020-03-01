@@ -1,6 +1,6 @@
 <div class="flex flex-row">
   <div class="flex flex-column product-image">
-    <img [defaultImage]="defaultProductUrl" [lazyLoad]="product?.featureImageUrl" [alt]="product?.title" />
+    <image-zoom-viewer [height]="400" [width]="400" [imageUrl]="product?.featureImageUrl"></image-zoom-viewer>
   </div>
   <div class="flex flex-column product-info">
     <h2>{{ product?.title | uppercase }}</h2>
@@ -8,13 +8,23 @@
 
     <h2>Tk {{ product?.pricing?.price }}</h2>
     <h3 class="mb-0">Colors *</h3>
-    <product-colors [productColors]="product?.productColors" [(color)]="selectedColor"></product-colors>
+    <product-colors
+      [productColors]="product?.productColors"
+      [size]="35"
+      [(color)]="selectedColor"
+      (colorChange)="onSelectColor($event)"
+    ></product-colors>
 
     <div *ngIf="selectedColor">
-      <h3 class="mb-0">Sizes</h3>
-      <nz-select [(ngModel)]="selectedSize" nzPlaceHolder="Choose Size">
-        <nz-option *ngFor="let size of selectedColor.sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
-      </nz-select>
+      <h3 class="mb-1">Sizes</h3>
+      <div class="flex flex-row">
+        <nz-select [(ngModel)]="selectedSize" nzSize="large">
+          <nz-option *ngFor="let size of selectedColor.sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
+        </nz-select>
+        <item-counter class="ml-1" [size]="'large'"></item-counter>
+      </div>
     </div>
+
+    <button class="mt-1" nz-button [nzSize]="'large'" nzType="primary">Add to cart</button>
   </div>
 </div>

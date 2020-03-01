@@ -130,6 +130,10 @@
   margin-top: 0 !important;
 }
 
+.mt-1 {
+  margin-top: 10px !important;
+}
+
 .pt-1 {
   padding-top: 10px !important;
 }
@@ -210,14 +214,4 @@
 
 .bold-style {
   font-weight: bold;
-}
-
-::ng-deep .vertical-center-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-::ng-deep .vertical-center-modal .ant-modal {
-  top: 0;
 }

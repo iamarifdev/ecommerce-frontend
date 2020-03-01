@@ -55,17 +55,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
       nzContent: ProductAddComponent,
       nzWidth: 750,
       nzComponentParams: {
-        title: 'title in component',
         productItem
       },
-      nzFooter: [
-        {
-          label: 'change component title from outside',
-          onClick: componentInstance => {
-            componentInstance!.title = 'title in inner component is changed';
-          }
-        }
-      ]
+      nzFooter: null
     });
   }
 

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'cart-item-counter',
+  selector: 'item-counter',
   template: `
     <nz-input-group nzCompact [nzSize]="size">
       <button nz-button [nzSize]="size" nzType="default" (click)="handleDecrement()">
@@ -22,7 +22,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     `
   ]
 })
-export class CartItemCounterComponent {
+export class ItemCounterComponent {
   public counter = 1;
   @Input() max?: number;
   @Input() size = 'medium';

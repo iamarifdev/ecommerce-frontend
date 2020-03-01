@@ -22,6 +22,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { CartOpenerComponent } from './components/cart-opener.component';
 import { OverlayLoaderComponent } from './components/overlay-loader.component';
+import { ImageZoomViewerComponent } from './components/image-zoom-viewer/image-zoom-viewer.component';
+import { ItemCounterComponent } from '../pages/orders/carts';
 const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
 
 @NgModule({
@@ -45,7 +47,7 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     NzModalModule,
     NzSelectModule
   ],
-  declarations: [CartOpenerComponent, OverlayLoaderComponent],
+  declarations: [CartOpenerComponent, OverlayLoaderComponent, ImageZoomViewerComponent, ItemCounterComponent],
   exports: [
     CommonModule,
     LazyLoadImageModule,
@@ -66,7 +68,9 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     NzModalModule,
     NzSelectModule,
     CartOpenerComponent,
-    OverlayLoaderComponent
+    OverlayLoaderComponent,
+    ImageZoomViewerComponent,
+    ItemCounterComponent
   ],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })

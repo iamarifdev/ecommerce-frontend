@@ -1,0 +1,8 @@
+<div class="flex flex-column image-container" [style.height.px]="height" [style.width.px]="width">
+  <img
+    [defaultImage]="defaultProductUrl"
+    [lazyLoad]="imageUrl"
+    [alt]="alternateTxt || ''"
+    #imageContainer
+  />
+</div>

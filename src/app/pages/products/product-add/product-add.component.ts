@@ -11,7 +11,6 @@ import { AsyncService } from '../../../shared/services/async.service';
   styleUrls: ['./product-add.component.scss']
 })
 export class ProductAddComponent implements OnInit {
-  @Input() title: string;
   @Input() productItem: IProductListItem;
 
   public defaultProductUrl = DEFAULT_PRODUCT_URL;
@@ -19,12 +18,17 @@ export class ProductAddComponent implements OnInit {
   public product: IProduct;
   public selectedColor: IProductColor;
 
-  constructor(private asyncService: AsyncService, private productService: ProductsService) {
-    this.product = { ...this.productItem };
-  }
+  constructor(private asyncService: AsyncService, private productService: ProductsService) {}
 
   ngOnInit(): void {
+    this.product = { ...this.productItem };
     this.getProduct();
+  }
+
+  onSelectColor(productColor: IProductColor) {
+    if (productColor.sizes && productColor.sizes.length) {
+      this.selectedSize = productColor.sizes[0];
+    }
   }
 
   getProduct(): void {
@@ -33,6 +37,10 @@ export class ProductAddComponent implements OnInit {
       response => {
         if (response.success && response.result) {
           this.product = response.result;
+          if (this.product.productColors && this.product.productColors.length) {
+            this.selectedColor = this.product.productColors[0];
+            this.onSelectColor(this.selectedColor);
+          }
         }
         this.asyncService.finish();
       },
