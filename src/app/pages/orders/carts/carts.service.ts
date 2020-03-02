@@ -5,6 +5,7 @@ import { ApiService } from '../../../shared/services/api.service';
 import { ICartProduct, ICart } from './models/cart.model';
 import { ICartAddProduct } from './models';
 import { ApiResponse } from 'src/app/models';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,18 @@ export class CartsService {
 
   public toggleCart() {
     this.isCartOpen = !this.isCartOpen;
+  }
+
+  getCart() {
+    const cartId = localStorage.getItem('cartId');
+    if (!cartId) return;
+    const params = new HttpParams({ fromObject: { cartId } });
+    const subscription = this.apiService.get<ApiResponse<ICart>>('/carts/id', params).subscribe(response => {
+      if (response.success && response.result) {
+        this.cartProductsSubject.next(response.result);
+      }
+      subscription.unsubscribe();
+    });
   }
 
   addProduct(product: ICartAddProduct) {

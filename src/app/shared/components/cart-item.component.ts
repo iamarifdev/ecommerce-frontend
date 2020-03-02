@@ -9,13 +9,16 @@ import { CartsService } from '../../pages/orders/carts/carts.service';
   template: `
     <div class="flex flex-row vertical-center cart-item">
       <div class="flex flex-column">
-        <img class="product-image" [src]="cartProduct?.imageUrl || defaultProductUrl" alt="Product Image" />
+        <img class="product-image" [src]="cartProduct?.featureImageUrl || defaultProductUrl" alt="Product Image" />
       </div>
       <div class="flex cell flex-column product-details">
         <div class="flex flex-row space-between">
           <div class="flex flex-column product-description">
             <p>{{ cartProduct?.title }}</p>
-            <p>Color: {{ cartProduct?.color }}</p>
+            <div class="flex flex-row vertical-center">
+              Color:
+              <div [style.background-color]="cartProduct?.color"></div>
+            </div>
             <p>Size: {{ cartProduct.size }}</p>
           </div>
           <div class="flex flex-column product-price">
@@ -47,11 +50,16 @@ import { CartsService } from '../../pages/orders/carts/carts.service';
         height: 120px;
       }
       .product-description p,
+      .product-description div,
       .product-price p {
         margin: 0;
         padding: 2px;
         font-size: 12px;
         font-weight: 700;
+      }
+      .product-description div div {
+        padding: 8px;
+        margin-left: 5px;
       }
       .product-description p:nth-child(1) {
         font-size: 14px;

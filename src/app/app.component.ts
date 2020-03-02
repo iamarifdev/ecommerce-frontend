@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
         this.asyncService.finish();
       }
     });
+    this.cartsService.getCart();
   }
 
   get openCart() {

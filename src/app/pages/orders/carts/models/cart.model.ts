@@ -16,5 +16,5 @@ export interface ICartProduct {
   totalPrice: number;
   color?: string;
   size?: number;
-  imageUrl?: string;
+  featureImageUrl?: string;
 }
