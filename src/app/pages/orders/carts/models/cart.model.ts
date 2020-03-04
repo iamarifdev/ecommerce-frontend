@@ -8,6 +8,7 @@ export interface ICart {
 }
 
 export interface ICartProduct {
+  id: string;
   productId: string;
   sku: string;
   title: string;

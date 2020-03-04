@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { CartsService } from './carts.service';
 import { Subscription } from 'rxjs';
+
 import { ICart } from './models/cart.model';
+import { CartsService } from './carts.service';
 
 @Component({
   selector: 'cart-container',

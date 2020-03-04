@@ -36,9 +36,13 @@ export class ApiService {
     return this.http.put<T>(`${environment.API_BASE}${path}`, JSON.stringify(body), { headers });
   }
 
+  patch<T>(path: string, body: any = {}): Observable<T> {
+    const headers = this.getHeaders();
+    return this.http.patch<T>(`${environment.API_BASE}${path}`, JSON.stringify(body), { headers });
+  }
+
   post<T>(path: string, body: any = {}): Observable<T> {
     const headers = this.getHeaders();
-
     return this.http.post<T>(`${environment.API_BASE}${path}`, JSON.stringify(body), { headers });
   }
 

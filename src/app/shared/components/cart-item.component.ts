@@ -24,7 +24,7 @@ import { CartsService } from '../../pages/orders/carts/carts.service';
           <div class="flex flex-column product-price">
             <p>Unit Price</p>
             <p>TK. {{ cartProduct?.unitPrice }}</p>
-            <item-counter (count)="onUpdateCount($event)"></item-counter>
+            <item-counter [(counter)]="cartProduct.quantity" (counterChange)="onUpdateCount($event)"></item-counter>
           </div>
           <div class="flex flex-column product-price">
             <p>Total Price</p>
@@ -72,6 +72,7 @@ import { CartsService } from '../../pages/orders/carts/carts.service';
 })
 export class CartItemComponent implements OnInit {
   @Input() defaultProductUrl = DEFAULT_PRODUCT_URL;
+  @Input() cartId: string;
   @Input() cartProduct: ICartProduct;
   @Output() updateCartProduct: EventEmitter<ICartProduct> = new EventEmitter();
 
@@ -83,11 +84,9 @@ export class CartItemComponent implements OnInit {
     }
   }
 
-  onUpdateCount(unit: number) {
-    this.cartProduct.quantity = unit;
-    this.calculatePrice();
-    this.cartsService.updateProduct(this.cartProduct);
-    this.updateCartProduct.emit(this.cartProduct);
+  onUpdateCount(quantity: number) {
+    const { id, productId } = this.cartProduct;
+    this.cartsService.updateCartProductQuantity({ cartProductId: id, cartId: this.cartId, productId, quantity });
   }
 
   private calculatePrice() {

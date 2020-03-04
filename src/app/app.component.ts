@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     return this.cartsService.cartOpened;
   }
 
-  toggleCartContainer(isOpened: boolean) {
+  toggleCartContainer() {
     this.cartsService.toggleCart();
   }
 }

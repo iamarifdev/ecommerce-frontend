@@ -48,8 +48,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   onAddProductToCart(productItem: IProductListItem): void {
-    // this.cartsService.addProduct(cartProduct);
-    // this.cartsService.toggleCart();
     const modelRef = this.modalService.create({
       nzWrapClassName: 'vertical-center-modal',
       nzContent: ProductAddComponent,

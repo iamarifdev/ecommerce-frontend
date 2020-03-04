@@ -33,6 +33,8 @@
       nzType="primary"
       [nzGhost]="!isValidInfo"
       (click)="addToCart()"
+      [nzLoading]="asyncService.loading"
+      [disabled]="asyncService.loading"
     >
       {{ 'Add to cart' | uppercase }}
     </button>

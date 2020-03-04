@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { ApiService } from '../../../shared/services/api.service';
-import { ICartProduct, ICart } from './models/cart.model';
-import { ICartAddProduct } from './models';
-import { ApiResponse } from 'src/app/models';
 import { HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { ICartAddProduct, ICart, ICartUpdateProductQuantity } from './models';
+import { ApiResponse } from '../../../../app/models';
+import { ApiService } from '../../../shared/services/api.service';
+import { AsyncService } from '../../../shared/services/async.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CartsService {
   private cartProductsSubject = new BehaviorSubject<ICart>({} as ICart);
   private isCartOpen = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private asyncService: AsyncService) {}
 
   public get cartOpened() {
     return this.isCartOpen;
@@ -28,59 +29,60 @@ export class CartsService {
     const cartId = localStorage.getItem('cartId');
     if (!cartId) return;
     const params = new HttpParams({ fromObject: { cartId } });
-    const subscription = this.apiService.get<ApiResponse<ICart>>('/carts/id', params).subscribe(response => {
-      if (response.success && response.result) {
-        this.cartProductsSubject.next(response.result);
+    this.asyncService.start();
+    const subscription = this.apiService.get<ApiResponse<ICart>>('/carts/id', params).subscribe(
+      response => {
+        if (response.success && response.result) {
+          this.cartProductsSubject.next(response.result);
+        }
+        this.asyncService.finish();
+        subscription.unsubscribe();
+      },
+      error => {
+        localStorage.removeItem('cartId');
+        this.asyncService.finish();
+        subscription.unsubscribe();
       }
-      subscription.unsubscribe();
-    });
+    );
   }
 
   addProduct(product: ICartAddProduct) {
-    if (product) {
+    const cartId = localStorage.getItem('cartId');
+    if (cartId) {
+      product.cartId = cartId;
+    }
+    this.asyncService.start();
+    return this.apiService.post<ApiResponse<ICart>>('/carts/add/product', product).pipe(
+      map(response => {
+        if (response.success && response.result) {
+          this.cartProductsSubject.next(response.result);
+          localStorage.setItem('cartId', response.result.id);
+        }
+        this.toggleCart();
+        this.asyncService.finish();
+        return response;
+      })
+    );
+  }
+
+  updateCartProductQuantity(update: ICartUpdateProductQuantity) {
+    const { cartId, cartProductId, productId, quantity } = update;
+    if (cartId && productId && quantity) {
+      this.asyncService.start();
       const subscription = this.apiService
-        .post<ApiResponse<ICart>>('/carts/add/product', product)
+        .patch<ApiResponse<ICart>>(`/carts/update/${cartId}/product-quantity`, { cartProductId, productId, quantity })
         .subscribe(response => {
           if (response.success && response.result) {
             this.cartProductsSubject.next(response.result);
             localStorage.setItem('cartId', response.result.id);
           }
+          this.asyncService.finish();
           subscription.unsubscribe();
         });
-
-      // const products = this.cartProductsSubject.value;
-      // this.cartProductsSubject.next(products.concat([cartProduct]));
     }
-  }
-
-  updateProduct(cartProduct: ICartProduct) {
-    // if (cartProduct && cartProduct.id) {
-    //   const products = [...this.cartProductsSubject.value];
-    //   const index = products.findIndex(p => p.id === cartProduct.id);
-    //   if (index > -1) {
-    //     products[index] = cartProduct;
-    //     this.cartProductsSubject.next(products);
-    //   }
-    // }
   }
 
   get cart(): Observable<ICart> {
     return this.cartProductsSubject.asObservable();
-    // const cartData = products.pipe(
-    //   map(items => {
-    //     return items.reduce((aCart: ICart, item) => {
-    //       aCart.id = aCart.id || Date.now().toString();
-    //       aCart.quantity = aCart.quantity || 0;
-    //       aCart.quantity += item.unit;
-    //       aCart.products = aCart.products || [];
-    //       aCart.products.push(item);
-    //       aCart.status = aCart.status || 'active';
-    //       aCart.total = aCart.total || 0;
-    //       aCart.total += item.totalPrice;
-    //       return aCart;
-    //     }, {} as ICart);
-    //   })
-    // );
-    // return cartData;
   }
 }

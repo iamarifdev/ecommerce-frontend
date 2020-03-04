@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 
 import { IProductListItem, IProductColor, IProduct } from '../models';
 import { DEFAULT_PRODUCT_URL } from '../../../shared/constants';
@@ -21,11 +23,16 @@ export class ProductAddComponent implements OnInit {
   public selectedColor: IProductColor;
   public quantity = 1;
 
+  public modalRefs: NzModalRef<any, any>[];
+
   constructor(
-    private asyncService: AsyncService,
+    public asyncService: AsyncService,
     private productService: ProductsService,
-    private cartsService: CartsService
-  ) {}
+    private cartsService: CartsService,
+    private modal: NzModalService
+  ) {
+    this.modalRefs = this.modal.openModals;
+  }
 
   get isValidInfo() {
     if (!this.selectedColor) return false;
@@ -47,8 +54,11 @@ export class ProductAddComponent implements OnInit {
       productId: this.product.id
       // todo add customer id if customer is logged in
     };
-    console.log('productToAdd', productToAdd);
-    this.cartsService.addProduct(productToAdd);
+    // console.log('productToAdd', productToAdd);
+    const subscription = this.cartsService.addProduct(productToAdd).subscribe(_ => {
+      subscription.unsubscribe();
+      this.modalRefs.forEach(f => f.close());
+    });
   }
 
   onSelectColor(productColor: IProductColor) {
