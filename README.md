@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+# Instruction for deployment with heroku
+
+##### Add The Git Remote
+  heroku git:remote -a ewebshop -r heroku
+
+##### Finally, deployment
+  git push heroku master
