@@ -17,7 +17,7 @@
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build --prod --aot --build-optimizer && ng run ecommerce-frontend:server",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
-    "postbuild": "npm run build:ssr",
+    "postinstall": "npm run build:ssr",
     "deploy": "npm run build:ssr && npm run serve:ssr"
   },
   "private": true,
