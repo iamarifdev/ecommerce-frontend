@@ -81,7 +81,7 @@ export class ApiService {
     });
   }
 
-  downloadCSV<T>(path: string, body: Object = {}): Observable<T> {
+  downloadCSV<T>(path: string, body: object = {}): Observable<T> {
     return this.http.post<T>(`${environment.API_BASE}${path}`, body, {
       headers: this.getHeaders(),
       responseType: 'text' as any

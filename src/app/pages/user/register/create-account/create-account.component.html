@@ -1,8 +1,52 @@
-<form nz-form [formGroup]="accountForm" (ngSubmit)="submitForm()">
+<form nz-form [formGroup]="accountForm" (ngSubmit)="createAccount()">
   <nz-form-item class="mb-1">
-    <nz-form-label nzRequired nzFor="email">Phone Number</nz-form-label>
-    <nz-form-control nzErrorTip="Phone number is required">
-      <input nzSize="large" nz-input formControlName="phoneNo" />
+    <nz-form-label nzRequired nzFor="phoneNo">Phone Number</nz-form-label>
+    <nz-form-control nzErrorTip="Phone number is required and it should be valid">
+      <nz-input-group nzSize="large" [nzSuffix]="suffixIconSend">
+        <input id="phoneNo" nz-input nzSize="large" formControlName="phoneNo" />
+      </nz-input-group>
+      <ng-template #suffixIconSend>
+        <button
+          type="button"
+          *ngIf="!isVerificationCodeSent && accountForm.get('phoneNo').valid"
+          [nzLoading]="asyncService.loading"
+          class="send-btn"
+          nz-button
+          nz-popover
+          nzPopoverTitle="Send verification code"
+          nzPopoverContent="Get verification code on your mobile"
+          nzType="primary"
+          nzSize="large"
+          (click)="requestVerificationCode()"
+        >
+          Send <i nz-icon nzType="arrow-right" nzTheme="outline"></i>
+        </button>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item *ngIf="isVerificationCodeSent" class="mb-1">
+    <nz-form-label nzRequired nzFor="verificationCode">Verification Code</nz-form-label>
+    <nz-form-control nzErrorTip="Verification code is required">
+      <nz-input-group nzSize="large" [nzSuffix]="suffixIconVerify">
+        <input id="verificationCode" nzSize="large" nz-input formControlName="verificationCode" />
+      </nz-input-group>
+      <ng-template #suffixIconVerify>
+        <button
+          type="button"
+          *ngIf="!isVerified && accountForm.get('verificationCode').valid"
+          [nzLoading]="asyncService.loading"
+          class="send-btn"
+          nz-button
+          nz-popover
+          nzPopoverTitle="Verify"
+          nzPopoverContent="Get verified to activate your acccount"
+          nzType="primary"
+          nzSize="large"
+          (click)="verifyPhoneNumber()"
+        >
+          Verify <i nz-icon nzType="safety-certificate" nzTheme="outline"></i>
+        </button>
+      </ng-template>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item class="mb-1">
@@ -14,7 +58,8 @@
   <nz-form-item nz-row class="register-area">
     <nz-form-control>
       <button
-        [disabled]="accountForm.invalid || accountForm.pristine"
+        [disabled]="accountForm.invalid || accountForm.pristine || asyncService.loading"
+        [nzLoading]="isVerificationCodeSent && isVerified && asyncService.loading"
         nzSize="large"
         nzBlock
         nz-button
