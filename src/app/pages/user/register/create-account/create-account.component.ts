@@ -13,8 +13,8 @@ export class CreateAccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountForm = this.fb.group({
-      phoneNo: [null, [Validators.email, Validators.required]],
-      email: [null, [Validators.email, Validators.required]]
+      phoneNo: [null, [Validators.required]],
+      email: [null, [Validators.email]]
     });
   }
 

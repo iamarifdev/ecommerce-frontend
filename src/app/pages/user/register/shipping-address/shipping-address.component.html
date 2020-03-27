@@ -1,0 +1,100 @@
+<form nz-form [formGroup]="shippingAddressForm" (ngSubmit)="submitForm()">
+  <nz-form-item class="mb-1">
+    <nz-form-control>
+      <label nzSize="large" nz-checkbox formControlName="sameToBillingAddress">Same as Billing Address</label>
+    </nz-form-control>
+  </nz-form-item>
+  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+    <div nz-col [nzXs]="24" [nzMd]="24" [nzLg]="12">
+      <nz-form-item class="mb-1">
+        <nz-form-label nzRequired nzFor="phoneNo">Phone Number</nz-form-label>
+        <nz-form-control nzErrorTip="Phone number is required">
+          <input id="phoneNo" nzSize="large" nz-input formControlName="phoneNo" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="email">E-mail</nz-form-label>
+        <nz-form-control nzErrorTip="The input is not valid E-mail!">
+          <input id="email" nzSize="large" nz-input formControlName="email" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="firstName">First name</nz-form-label>
+        <nz-form-control nzErrorTip="First name is required">
+          <input id="firstName" nzSize="large" nz-input formControlName="firstName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="lastName">Last name</nz-form-label>
+        <nz-form-control nzErrorTip="Last name is required">
+          <input id="lastName" nzSize="large" nz-input formControlName="lastName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="country">Country</nz-form-label>
+        <nz-form-control nzErrorTip="Country is required">
+          <nz-select
+            id="country"
+            nzSize="large"
+            [(ngModel)]="selectedCountry"
+            formControlName="country"
+            [compareWith]="compareFn"
+            nzAllowClear
+            nzPlaceHolder="Choose"
+          >
+            <nz-option *ngFor="let option of countryList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="24" [nzMd]="24" [nzLg]="12">
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="state">State</nz-form-label>
+        <nz-form-control nzErrorTip="State is required">
+          <nz-select
+            id="state"
+            nzSize="large"
+            [(ngModel)]="selectedState"
+            formControlName="state"
+            [compareWith]="compareFn"
+            nzAllowClear
+            nzPlaceHolder="Choose"
+          >
+            <nz-option *ngFor="let option of stateList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="address">Address</nz-form-label>
+        <nz-form-control nzErrorTip="Address is required">
+          <textarea nz-input id="address" formControlName="address"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="city">City</nz-form-label>
+        <nz-form-control nzErrorTip="City is required">
+          <input id="city" nzSize="large" nz-input formControlName="city" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mb-1">
+        <nz-form-label nzFor="postalCode">Post code</nz-form-label>
+        <nz-form-control nzErrorTip="Post code is required">
+          <input id="postalCode" nzSize="large" nz-input formControlName="postalCode" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control>
+      <button
+        [disabled]="shippingAddressForm.invalid || shippingAddressForm.pristine"
+        nzSize="large"
+        nzBlock
+        nz-button
+        nzType="primary"
+      >
+        Next <i nz-icon nzType="double-right" nzTheme="outline"></i>
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

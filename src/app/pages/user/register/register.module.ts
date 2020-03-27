@@ -5,11 +5,13 @@ import { Route, RouterModule } from '@angular/router';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { RegisterComponent } from './register/register.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { BillingAddressComponent } from './billing-address/billing-address.component';
+import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 
 const routes: Route[] = [{ path: '', component: RegisterComponent }];
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
-  declarations: [CreateAccountComponent, RegisterComponent]
+  declarations: [RegisterComponent, CreateAccountComponent, BillingAddressComponent, ShippingAddressComponent]
 })
 export class RegisterModule {}

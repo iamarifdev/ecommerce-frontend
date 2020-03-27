@@ -2,14 +2,17 @@
   <nz-content>
     <nz-card [nzBordered]="true" nzTitle="Register" class="register-container">
       <nz-steps nzType="navigation" [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
-        <nz-step nzTitle="Create account" [nzDisabled]="disable" nzDescription="This is a description.">
+        <nz-step nzTitle="Create account" [nzDisabled]="disable" nzIcon="user-add">
         </nz-step>
-        <nz-step nzTitle="Billing Address" nzDescription="This is a description."></nz-step>
-        <nz-step nzTitle="Shipping Address" nzDescription="This is a description."></nz-step>
+        <nz-step nzTitle="Billing Address" nzIcon="idcard"></nz-step>
+        <nz-step nzTitle="Shipping Address" nzIcon="solution"></nz-step>
+        <nz-step nzTitle="Complete" nzIcon="check-circle"></nz-step>
       </nz-steps>
 
       <nz-card>
-        <create-account *ngIf="index === 0"></create-account>
+        <create-account class="step" *ngIf="index === 0"></create-account>
+        <billing-address class="step" *ngIf="index === 1"></billing-address>
+        <shipping-address class="step" *ngIf="index === 2"></shipping-address>
       </nz-card>
     </nz-card>
   </nz-content>

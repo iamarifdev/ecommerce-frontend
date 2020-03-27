@@ -1,19 +1,27 @@
 <form nz-form [formGroup]="accountForm" (ngSubmit)="submitForm()">
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Phone Number</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Phone number is required">
+  <nz-form-item class="mb-1">
+    <nz-form-label nzRequired nzFor="email">Phone Number</nz-form-label>
+    <nz-form-control nzErrorTip="Phone number is required">
       <input nzSize="large" nz-input formControlName="phoneNo" />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+  <nz-form-item class="mb-1">
+    <nz-form-label nzFor="email">E-mail</nz-form-label>
+    <nz-form-control nzErrorTip="The input is not valid E-mail!">
       <input nzSize="large" nz-input formControlName="email" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item nz-row class="register-area">
-    <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nzSize="large" nzBlock nz-button nzType="primary">Register</button>
+    <nz-form-control>
+      <button
+        [disabled]="accountForm.invalid || accountForm.pristine"
+        nzSize="large"
+        nzBlock
+        nz-button
+        nzType="primary"
+      >
+        Next <i nz-icon nzType="double-right" nzTheme="outline"></i>
+      </button>
     </nz-form-control>
   </nz-form-item>
 </form>
