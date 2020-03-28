@@ -1,4 +1,10 @@
 <form nz-form [formGroup]="accountForm" (ngSubmit)="createAccount()">
+  <nz-alert
+    *ngIf="accountForm.get('phoneNo').hasError('invalidIdentity')"
+    nzType="warning"
+    nzMessage="Phone number already in use!"
+    nzShowIcon
+  ></nz-alert>
   <nz-form-item class="mb-1">
     <nz-form-label nzRequired nzFor="phoneNo">Phone Number</nz-form-label>
     <nz-form-control nzErrorTip="Phone number is required and it should be valid">
@@ -58,7 +64,7 @@
   <nz-form-item nz-row class="register-area">
     <nz-form-control>
       <button
-        [disabled]="accountForm.invalid || accountForm.pristine || asyncService.loading"
+        [disabled]="accountForm.invalid || accountForm.pristine || !isVerified || asyncService.loading"
         [nzLoading]="isVerificationCodeSent && isVerified && asyncService.loading"
         nzSize="large"
         nzBlock

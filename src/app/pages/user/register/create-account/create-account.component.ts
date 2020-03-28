@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { AsyncService } from '../../../../shared/services/async.service';
+import { AsyncValidationService } from '../../../../shared/services/async-validation.service';
 import { RegisterService } from '../register.service';
 
 @Component({
@@ -15,11 +16,20 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   public isVerified: boolean;
   public accountCreated: boolean;
 
-  constructor(private fb: FormBuilder, public asyncService: AsyncService, private registerService: RegisterService) {}
+  constructor(
+    private fb: FormBuilder,
+    public asyncService: AsyncService,
+    private validationService: AsyncValidationService,
+    private registerService: RegisterService
+  ) {}
 
   ngOnInit(): void {
     this.accountForm = this.fb.group({
-      phoneNo: [null, Validators.compose([Validators.required, Validators.pattern(/^01[3456789][0-9]{8}$/)])],
+      phoneNo: [
+        null,
+        Validators.compose([Validators.required, Validators.pattern(/^01[3456789][0-9]{8}$/)]),
+        this.validationService.validateIdentity(this.registerService.validateCustomer, 'phoneNo')
+      ],
       verificationCode: [
         null,
         Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)])

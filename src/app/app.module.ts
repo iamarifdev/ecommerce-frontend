@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AsyncService } from './shared/services/async.service';
 import { StorageService } from './shared/services/storage.service';
 import { ApiService } from './shared/services/api.service';
+import { AsyncValidationService } from './shared/services/async-validation.service';
 
 registerLocaleData(en);
 
@@ -24,7 +25,7 @@ registerLocaleData(en);
     AppRoutingModule,
     CartsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, ApiService, StorageService, AsyncService],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, ApiService, StorageService, AsyncService, AsyncValidationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
