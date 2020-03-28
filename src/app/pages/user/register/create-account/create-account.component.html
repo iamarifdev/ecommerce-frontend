@@ -9,12 +9,12 @@
     <nz-form-label nzRequired nzFor="phoneNo">Phone Number</nz-form-label>
     <nz-form-control nzErrorTip="Phone number is required and it should be valid">
       <nz-input-group nzSize="large" [nzSuffix]="suffixIconSend">
-        <input id="phoneNo" nz-input nzSize="large" formControlName="phoneNo" />
+        <input [disabled]="!!customer" id="phoneNo" nz-input nzSize="large" formControlName="phoneNo" />
       </nz-input-group>
       <ng-template #suffixIconSend>
         <button
           type="button"
-          *ngIf="!isVerificationCodeSent && accountForm.get('phoneNo').valid"
+          *ngIf="!customer && !isVerificationCodeSent && accountForm.get('phoneNo').valid"
           [nzLoading]="asyncService.loading"
           class="send-btn"
           nz-button
@@ -58,13 +58,13 @@
   <nz-form-item class="mb-1">
     <nz-form-label nzFor="email">E-mail</nz-form-label>
     <nz-form-control nzErrorTip="The input is not valid E-mail!">
-      <input nzSize="large" nz-input formControlName="email" />
+      <input [disabled]="!!customer" nzSize="large" nz-input formControlName="email" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item nz-row class="register-area">
     <nz-form-control>
       <button
-        [disabled]="accountForm.invalid || accountForm.pristine || !isVerified || asyncService.loading"
+        [disabled]="!!customer || accountForm.invalid || accountForm.pristine || !isVerified || asyncService.loading"
         [nzLoading]="isVerificationCodeSent && isVerified && asyncService.loading"
         nzSize="large"
         nzBlock

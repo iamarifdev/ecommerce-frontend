@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { AsyncService } from '../../../../shared/services/async.service';
 import { AsyncValidationService } from '../../../../shared/services/async-validation.service';
 import { RegisterService } from '../register.service';
+import { ICustomer } from '../models/customer.model';
 
 @Component({
   selector: 'create-account',
@@ -15,6 +16,12 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   public isVerificationCodeSent: boolean;
   public isVerified: boolean;
   public accountCreated: boolean;
+
+  @Input()
+  public customer: ICustomer;
+
+  @Output()
+  public completeStep = new EventEmitter<ICustomer>(null);
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +35,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       phoneNo: [
         null,
         Validators.compose([Validators.required, Validators.pattern(/^01[3456789][0-9]{8}$/)]),
-        this.validationService.validateIdentity(this.registerService.validateCustomer, 'phoneNo')
+        !this.customer && this.validationService.validateIdentity(this.registerService.validateCustomer, 'phoneNo')
       ],
       verificationCode: [
         null,
@@ -36,6 +43,11 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       ],
       email: [null, [Validators.email]]
     });
+
+    if (this.customer) {
+      this.accountForm.patchValue(this.customer);
+      this.accountCreated = true;
+    }
   }
 
   public requestVerificationCode(): void {
@@ -90,9 +102,9 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       this.asyncService.start();
       this.registerService.createAccount(phoneNo, verificationCode, email).subscribe(
         response => {
-          // TODO: implement model
           if (response.success && response.result) {
             this.accountCreated = !!response.result;
+            this.completeStep.emit(response.result);
           }
           this.asyncService.finish();
         },
