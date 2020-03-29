@@ -3,9 +3,9 @@
     <nz-card [nzBordered]="true" nzTitle="Register" class="register-container">
       <nz-steps nzType="navigation" [nzCurrent]="index" (nzIndexChange)="changeIndex($event)">
         <nz-step nzTitle="Create account" [nzDisabled]="disable" nzIcon="user-add"> </nz-step>
-        <nz-step nzTitle="Billing Address" nzIcon="idcard"></nz-step>
-        <nz-step nzTitle="Shipping Address" nzIcon="solution"></nz-step>
-        <nz-step nzTitle="Complete" nzIcon="check-circle"></nz-step>
+        <nz-step nzTitle="Billing Address" nzIcon="idcard" [nzDisabled]="step < 2"></nz-step>
+        <nz-step nzTitle="Shipping Address" nzIcon="solution" [nzDisabled]="step < 3"></nz-step>
+        <nz-step nzTitle="Complete" nzIcon="check-circle" [nzDisabled]="step !== 4"></nz-step>
       </nz-steps>
 
       <nz-card>
@@ -15,8 +15,28 @@
           (completeStep)="onCreateAccount($event)"
           *ngIf="index === 0"
         ></create-account>
-        <billing-address class="step" *ngIf="index === 1"></billing-address>
-        <shipping-address class="step" *ngIf="index === 2"></shipping-address>
+        <billing-address
+          [customer]="customer"
+          (completeStep)="onAddBillingAddress($event)"
+          class="step"
+          *ngIf="index === 1"
+        ></billing-address>
+        <shipping-address
+          [customer]="customer"
+          (completeStep)="onAddShippingAddress($event)"
+          class="step"
+          *ngIf="index === 2"
+        ></shipping-address>
+        <nz-result
+          *ngIf="index === 3"
+          nzStatus="success"
+          nzTitle="Successfully registered!"
+          nzSubTitle="Now, You are ready to purchase products."
+        >
+          <div nz-result-extra>
+            <button nz-button nzType="primary">Go Home</button>
+          </div>
+        </nz-result>
       </nz-card>
     </nz-card>
   </nz-content>

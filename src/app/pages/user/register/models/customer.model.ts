@@ -15,7 +15,7 @@ export interface ICustomer {
 
 export interface ICustomerAddress {
   phoneNo: string;
-  email: string;
+  email?: string;
   firstName: string;
   lastName: string;
   country: string;

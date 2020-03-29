@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ApiService } from '../../../shared/services/api.service';
 import { ApiResponse, IIdentityResult } from '../../../models';
-import { ICustomer } from './models/customer.model';
+import { ICustomer, ICustomerAddress } from './models/customer.model';
 
 @Injectable()
 export class RegisterService {
@@ -30,6 +30,32 @@ export class RegisterService {
   };
 
   public createAccount(phoneNo: string, verificationCode: string, email?: string): Observable<ApiResponse<ICustomer>> {
-    return this.apiService.post<ApiResponse<any>>(`${this.customerUrl}/add`, { phoneNo, verificationCode, email });
+    return this.apiService.post<ApiResponse<ICustomer>>(`${this.customerUrl}/add`, {
+      phoneNo,
+      verificationCode,
+      email
+    });
+  }
+
+  public updateBillingAddress(
+    customerId: string,
+    billingAddress: ICustomerAddress
+  ): Observable<ApiResponse<ICustomer>> {
+    return this.apiService.patch<ApiResponse<ICustomer>>(
+      `${this.customerUrl}/update/${customerId}/address/billing`,
+      billingAddress
+    );
+  }
+
+  public updateShippingAddress(
+    customerId: string,
+    shippingAddress: ICustomerAddress
+  ): Observable<ApiResponse<ICustomer>> {
+    const { sameToBillingAddress, ...address } = shippingAddress;
+    const payload = sameToBillingAddress ? { sameToBillingAddress } : address;
+    return this.apiService.patch<ApiResponse<ICustomer>>(
+      `${this.customerUrl}/update/${customerId}/address/shipping`,
+      payload
+    );
   }
 }
