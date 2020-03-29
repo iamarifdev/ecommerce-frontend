@@ -2,6 +2,7 @@
   "extends": "tslint:recommended",
   "rules": {
     "curly": false,
+    "semicolon": [true, "always", "strict-bound-class-methods"],
     "no-string-literal": false,
     "array-type": false,
     "arrow-parens": false,

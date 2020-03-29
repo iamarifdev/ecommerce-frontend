@@ -93,7 +93,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  createAccount(): void {
+  public createAccount(): void {
     if (this.accountForm.invalid) {
       return;
     }

@@ -23,13 +23,13 @@ export class RegisterService {
     });
   }
 
-  public createAccount(phoneNo: string, verificationCode: string, email?: string): Observable<ApiResponse<ICustomer>> {
-    return this.apiService.post<ApiResponse<any>>(`${this.customerUrl}/add`, { phoneNo, verificationCode, email });
-  }
-
   public validateCustomer = (fieldName: string, controlValue: string): Observable<ApiResponse<IIdentityResult>> => {
     return this.apiService.post<ApiResponse<IIdentityResult>>(`${this.customerUrl}/validate/identity`, {
       [fieldName]: controlValue
     });
+  };
+
+  public createAccount(phoneNo: string, verificationCode: string, email?: string): Observable<ApiResponse<ICustomer>> {
+    return this.apiService.post<ApiResponse<any>>(`${this.customerUrl}/add`, { phoneNo, verificationCode, email });
   }
 }

@@ -6,7 +6,7 @@
     nzShowIcon
   ></nz-alert>
   <nz-form-item class="mb-1">
-    <nz-form-label nzRequired nzFor="phoneNo">Phone Number</nz-form-label>
+    <nz-form-label nzNoColon nzRequired nzFor="phoneNo">Phone Number</nz-form-label>
     <nz-form-control nzErrorTip="Phone number is required and it should be valid">
       <nz-input-group nzSize="large" [nzSuffix]="suffixIconSend">
         <input [disabled]="!!customer" id="phoneNo" nz-input nzSize="large" formControlName="phoneNo" />
@@ -31,7 +31,7 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item *ngIf="isVerificationCodeSent" class="mb-1">
-    <nz-form-label nzRequired nzFor="verificationCode">Verification Code</nz-form-label>
+    <nz-form-label nzNoColon nzRequired nzFor="verificationCode">Verification Code</nz-form-label>
     <nz-form-control nzErrorTip="Verification code is required">
       <nz-input-group nzSize="large" [nzSuffix]="suffixIconVerify">
         <input id="verificationCode" nzSize="large" nz-input formControlName="verificationCode" />
@@ -56,7 +56,7 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item class="mb-1">
-    <nz-form-label nzFor="email">E-mail</nz-form-label>
+    <nz-form-label nzNoColon nzFor="email">E-mail</nz-form-label>
     <nz-form-control nzErrorTip="The input is not valid E-mail!">
       <input [disabled]="!!customer" nzSize="large" nz-input formControlName="email" />
     </nz-form-control>

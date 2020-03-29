@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
+
 @Component({
   selector: 'billing-address',
   templateUrl: './billing-address.component.html',
@@ -8,17 +10,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class BillingAddressComponent implements OnInit {
   public billingAddressForm: FormGroup;
-  public countryList = [
-    { label: 'Bangladesh', value: 'Bangladesh' },
-    { label: 'Afganistan', value: 'Afganistan' }
-  ];
-  public selectedCountry = this.countryList[0];
 
-  public stateList = [
-    { label: 'Dhaka', value: 'Dhaka' },
-    { label: 'Chittagong', value: 'Chittagong' }
-  ];
-  public selectedState = this.stateList[0];
+  public countryList: ICountry[] = [];
+  public selectedCountry = 'Bangladesh';
+  public stateList: IState[] = [];
+  public selectedState = 'Dhaka';
 
   compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
 
@@ -36,6 +32,16 @@ export class BillingAddressComponent implements OnInit {
       city: [null, Validators.required],
       postalCode: [null, Validators.required]
     });
+
+    this.countryList = getCountries();
+    console.log('countryList: ', this.countryList);
+  }
+
+  onChangeCountry() {
+    if (this.selectedCountry) {
+      this.stateList = getStates(this.selectedCountry);
+      this.selectedState = this.stateList[0].name;
+    }
   }
 
   submitForm(): void {}
