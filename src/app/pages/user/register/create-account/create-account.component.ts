@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { AsyncService } from '../../../../shared/services/async.service';
 import { AsyncValidationService } from '../../../../shared/services/async-validation.service';
@@ -16,6 +17,10 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   public isVerificationCodeSent: boolean;
   public isVerified: boolean;
   public accountCreated: boolean;
+
+  public verifySub: Subscription;
+  public sendSub: Subscription;
+  public createSub: Subscription;
 
   @Input()
   public customer: ICustomer;
@@ -54,7 +59,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     const phoneNo = this.accountForm.get('phoneNo').value;
     if (phoneNo) {
       this.asyncService.start();
-      this.registerService.sendVerificationCode(phoneNo).subscribe(
+      this.sendSub = this.registerService.sendVerificationCode(phoneNo).subscribe(
         response => {
           if (response.success && response.result) {
             this.isVerificationCodeSent = true;
@@ -77,7 +82,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     const { phoneNo, verificationCode } = this.accountForm.value;
     if (phoneNo && verificationCode) {
       this.asyncService.start();
-      this.registerService.verifyPhoneNumber(phoneNo, verificationCode).subscribe(
+      this.verifySub = this.registerService.verifyPhoneNumber(phoneNo, verificationCode).subscribe(
         response => {
           if (response.success && response.result) {
             this.isVerified = response.result;
@@ -100,7 +105,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     const { phoneNo, verificationCode, email } = this.accountForm.value;
     if (phoneNo && verificationCode) {
       this.asyncService.start();
-      this.registerService.createAccount(phoneNo, verificationCode, email).subscribe(
+      this.createSub = this.registerService.createAccount(phoneNo, verificationCode, email).subscribe(
         response => {
           if (response.success && response.result) {
             this.accountCreated = !!response.result;
@@ -120,6 +125,15 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.asyncService) {
       this.asyncService.finish();
+    }
+    if (this.createSub) {
+      this.createSub.unsubscribe();
+    }
+    if (this.sendSub) {
+      this.sendSub.unsubscribe();
+    }
+    if (this.verifySub) {
+      this.verifySub.unsubscribe();
     }
   }
 }

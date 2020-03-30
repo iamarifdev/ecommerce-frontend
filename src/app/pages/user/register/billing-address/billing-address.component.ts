@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
 import { AsyncService } from '../../../../shared/services/async.service';
@@ -18,6 +19,8 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
   public selectedCountry = 'Bangladesh';
   public stateList: IState[] = [];
   public selectedState = 'Dhaka';
+
+  public sub: Subscription;
 
   @Input()
   public customer: ICustomer;
@@ -63,7 +66,7 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
   public updateBillingAddress(): void {
     if (this.customer && this.billingAddressForm.valid) {
       this.asyncService.start();
-      this.registerService.updateBillingAddress(this.customer.id, this.billingAddressForm.value).subscribe(
+      this.sub = this.registerService.updateBillingAddress(this.customer.id, this.billingAddressForm.value).subscribe(
         response => {
           if (response.success && response.result) {
             this.customer = response.result;
@@ -82,6 +85,9 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.asyncService) {
       this.asyncService.finish();
+    }
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 }

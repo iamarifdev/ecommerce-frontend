@@ -6,14 +6,32 @@
         eWebShop
       </a>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="horizontal">
-      <li nz-menu-item nzMatchRouter nzIcon="home">
-        <a routerLink="/home">Home</a>
-      </li>
-      <li nz-menu-item nzMatchRouter nzIcon="container">
-        <a routerLink="/products/list">Products</a>
-      </li>
-    </ul>
+    <div class="flex flex-row space-between">
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li nz-menu-item nzMatchRouter nzIcon="home">
+          <a routerLink="/home">Home</a>
+        </li>
+        <li nz-menu-item nzMatchRouter nzIcon="container">
+          <a routerLink="/products/list">Products</a>
+        </li>
+      </ul>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li nz-submenu nzTitle="Account" nzIcon="user" nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight"></li>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li class="pa-2" nz-menu-item>
+              <p class="mb-2">Welcome to eWebShop</p>
+              <div class="flex flex-row space-between account-menu">
+                <a routerLink="/user/register" class="mr-1" nzBlock nz-button nzType="danger">Join</a>
+                <a nzBlock nz-button nzType="primary">Sign In</a>
+              </div>
+            </li>
+            <li nz-menu-item>My Orders</li>
+            <li nz-menu-item>Wish list</li>
+          </ul>
+        </nz-dropdown-menu>
+      </ul>
+    </div>
   </nz-header>
   <nz-content>
     <div class="inner-content">

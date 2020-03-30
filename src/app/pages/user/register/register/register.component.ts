@@ -1,11 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ICustomer } from '../models/customer.model';
 
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   public customer: ICustomer;

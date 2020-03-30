@@ -5,6 +5,7 @@ import { getCountries, getStates, ICountry, IState } from '../../../../data/coun
 import { AsyncService } from '../../../../shared/services/async.service';
 import { RegisterService } from '../register.service';
 import { ICustomer } from '../models/customer.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'shipping-address',
@@ -17,6 +18,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   public selectedCountry = 'Bangladesh';
   public stateList: IState[] = [];
   public selectedState = 'Dhaka';
+
+  public sub: Subscription;
 
   @Input()
   public customer: ICustomer;
@@ -64,7 +67,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   public updateShippingAddress(): void {
     if (this.customer && this.shippingAddressForm.valid) {
       this.asyncService.start();
-      this.registerService.updateShippingAddress(this.customer.id, this.shippingAddressForm.value).subscribe(
+      this.sub = this.registerService.updateShippingAddress(this.customer.id, this.shippingAddressForm.value).subscribe(
         response => {
           if (response.success && response.result) {
             this.customer = response.result;
@@ -89,6 +92,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.asyncService) {
       this.asyncService.finish();
+    }
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 }
