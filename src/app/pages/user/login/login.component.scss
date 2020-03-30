@@ -1,11 +1,14 @@
 .login-page {
   height: calc(100vh - 64px);
+  nz-card {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
 }
 .login-form {
-  max-width: 450px;
-  padding: 30px;
-  border: 1px solid rgba(211, 211, 211, 0.35);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-width: 350px;
+  // padding: 30px;
+  // border: 1px solid rgba(211, 211, 211, 0.35);
+  // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .login-form-forgot {
