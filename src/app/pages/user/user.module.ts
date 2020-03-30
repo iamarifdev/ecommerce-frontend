@@ -10,6 +10,10 @@ const routes: Route[] = [
     path: 'register',
     component: UserComponent,
     loadChildren: () => import('./register/register.module').then(m => m.RegisterModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   }
 ];
 

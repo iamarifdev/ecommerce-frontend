@@ -1,0 +1,29 @@
+.login-page {
+  height: calc(100vh - 64px);
+}
+.login-form {
+  max-width: 450px;
+  padding: 30px;
+  border: 1px solid rgba(211, 211, 211, 0.35);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.ant-input-prefix {
+  font-size: 20px;
+}
+
+.ant-input {
+  height: 45px;
+}
+
+.ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 40px;
+}

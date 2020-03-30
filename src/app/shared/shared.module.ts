@@ -11,6 +11,7 @@ import { OverlayLoaderComponent } from './components/overlay-loader.component';
 import { ImageZoomViewerComponent } from './components/image-zoom-viewer/image-zoom-viewer.component';
 import { ItemCounterComponent } from '../pages/orders/carts';
 import { NgAntdModule } from './ng-antd.module';
+import { PageNotFoundComponent } from './components/page-not-found.component';
 const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
 
 @NgModule({
@@ -23,7 +24,13 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     HttpClientJsonpModule,
     NgAntdModule
   ],
-  declarations: [CartOpenerComponent, OverlayLoaderComponent, ImageZoomViewerComponent, ItemCounterComponent],
+  declarations: [
+    CartOpenerComponent,
+    OverlayLoaderComponent,
+    ImageZoomViewerComponent,
+    ItemCounterComponent,
+    PageNotFoundComponent
+  ],
   exports: [
     CommonModule,
     LazyLoadImageModule,
