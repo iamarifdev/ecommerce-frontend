@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { QuicklinkStrategy } from 'ngx-quicklink';
 
 import { PageNotFoundComponent } from './shared/components/page-not-found.component';
 import { SharedModule } from './shared/shared.module';
@@ -20,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), SharedModule],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: QuicklinkStrategy }), SharedModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

@@ -3,6 +3,7 @@ import en from '@angular/common/locales/en';
 import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import { NZ_I18N, en_US } from 'ng-zorro-antd';
+import { QuicklinkModule } from 'ngx-quicklink';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ registerLocaleData(en);
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     SharedModule,
+    QuicklinkModule,
     AppRoutingModule,
     CartsModule
   ],

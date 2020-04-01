@@ -1,17 +1,22 @@
 // These are important and needed before anything else
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
+import 'localstorage-polyfill';
 
 import { enableProdMode } from '@angular/core';
 
 import * as express from 'express';
 import { join, resolve } from 'path';
+import * as compression from 'compression';
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 
 // Express server
 const app = express();
+
+// Use compression to compress to response
+app.use(compression());
 
 const PORT = process.env.PORT || 4000;
 const DIST_FOLDER = resolve(process.cwd(), 'dist');
@@ -21,8 +26,12 @@ const win = domino.createWindow('');
 
 global['window'] = win;
 global['document'] = win.document;
-global['localStorage'] = win.localStorage;
+global['localStorage'] = localStorage;
 global['XMLHttpRequest'] = require('xmlhttprequest').XMLHttpRequest;
+global['Node'] = win.Node;
+global['navigator'] = win.navigator;
+global['Event'] = win.Event;
+global['Event']['prototype'] = win.Event.prototype;
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main');
