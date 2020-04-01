@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import '~src/app/@theme/breakpoint-mixins.scss';
 
 * {
   font-family: 'Lato';
@@ -225,4 +226,27 @@
 
 .bold-style {
   font-weight: bold;
+}
+
+.step {
+  display: flex;
+  justify-content: center;
+
+  .register-step-form {
+    @include xl {
+      width: 40% !important;
+    }
+    @include lg {
+      width: 50% !important;
+    }
+    @include md {
+      width: 50% !important;
+    }
+    @include sm {
+      width: 100% !important;
+    }
+    @include xs {
+      width: 100% !important;
+    }
+  }
 }
