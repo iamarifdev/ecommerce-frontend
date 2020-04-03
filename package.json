@@ -8,7 +8,7 @@
   "description": "Ecommerce application",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 5003",
     "hmr": "ng serve --configuration hmr",
     "test": "ng test",
     "lint": "tslint ./src/**/*.ts -t verbose",
