@@ -3,7 +3,7 @@
   <nz-content>
     <nz-card [nzBordered]="true" nzTitle="Register" class="register-container">
       <nz-steps nzType="navigation" [nzCurrent]="index" (nzIndexChange)="changeIndex($event)">
-        <nz-step nzTitle="Create account" [nzDisabled]="disable" nzIcon="user-add"> </nz-step>
+        <nz-step nzTitle="Create account" nzIcon="user-add"> </nz-step>
         <nz-step nzTitle="Billing Address" nzIcon="idcard" [nzDisabled]="step < 2"></nz-step>
         <nz-step nzTitle="Shipping Address" nzIcon="solution" [nzDisabled]="step < 3"></nz-step>
         <nz-step nzTitle="Complete" nzIcon="check-circle" [nzDisabled]="step !== 4"></nz-step>
@@ -35,7 +35,9 @@
           nzSubTitle="Now, You are ready to purchase products."
         >
           <div nz-result-extra>
-            <button nz-button nzType="primary">Go Home</button>
+            <a nzSize="large" routerLink="/user/login" nz-button nzType="primary">
+              <i nz-icon nzType="login"></i> Login
+            </a>
           </div>
         </nz-result>
       </nz-card>

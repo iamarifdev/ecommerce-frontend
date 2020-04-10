@@ -96,17 +96,21 @@
       </nz-form-item>
     </div>
   </div>
-  <nz-form-item nz-row class="register-area">
-    <nz-form-control>
+  <div nz-row [nzGutter]="rowGutter">
+    <div nz-col [nzSpan]="12">
       <button
-        [disabled]="shippingAddressForm.invalid || shippingAddressForm.pristine"
+      [disabled]="shippingAddressForm.invalid || shippingAddressForm.pristine"
+        [nzLoading]="asyncService.loading"
         nzSize="large"
-        nzBlock
         nz-button
+        nzBlock
         nzType="primary"
       >
         Next <i nz-icon nzType="double-right" nzTheme="outline"></i>
       </button>
-    </nz-form-control>
-  </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <button nzBlock nzSize="large" nz-button nzType="default" (click)="skipThisStep()">Skip</button>
+    </div>
+  </div>
 </form>

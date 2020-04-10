@@ -29,10 +29,11 @@ export class RegisterService {
     });
   };
 
-  public createAccount(phoneNo: string, verificationCode: string, email?: string): Observable<ApiResponse<ICustomer>> {
+  public createAccount(phoneNo: string, verificationCode: string, password: string, email?: string): Observable<ApiResponse<ICustomer>> {
     return this.apiService.post<ApiResponse<ICustomer>>(`${this.customerUrl}/add`, {
       phoneNo,
       verificationCode,
+      password,
       email
     });
   }

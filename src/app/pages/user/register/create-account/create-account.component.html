@@ -56,6 +56,12 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item class="mb-1">
+    <nz-form-label nzNoColon nzRequired nzFor="email">Password</nz-form-label>
+    <nz-form-control nzErrorTip="The password is not valid!">
+      <input type="password" [disabled]="!!customer" nzSize="large" nz-input formControlName="password" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="mb-1">
     <nz-form-label nzNoColon nzFor="email">E-mail</nz-form-label>
     <nz-form-control nzErrorTip="The input is not valid E-mail!">
       <input [disabled]="!!customer" nzSize="large" nz-input formControlName="email" />

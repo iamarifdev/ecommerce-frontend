@@ -18,6 +18,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   public selectedCountry = 'Bangladesh';
   public stateList: IState[] = [];
   public selectedState = 'Dhaka';
+  public rowGutter = { xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 };
 
   public sub: Subscription;
 
@@ -87,6 +88,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     if (checked && this.customer.billingAddress) {
       this.shippingAddressForm.patchValue(this.customer.billingAddress);
     }
+  }
+
+  public skipThisStep(): void {
+    this.completeStep.emit(null);
   }
 
   ngOnDestroy(): void {

@@ -23,13 +23,17 @@ export class RegisterComponent {
   }
 
   public onAddBillingAddress(customer: ICustomer): void {
-    this.customer = customer;
+    if (customer) {
+      this.customer = customer;
+    }
     this.step = 3;
     this.changeIndex(2);
   }
 
   public onAddShippingAddress(customer: ICustomer): void {
-    this.customer = customer;
+    if (customer) {
+      this.customer = customer;
+    }
     this.step = 4;
     this.changeIndex(3);
   }

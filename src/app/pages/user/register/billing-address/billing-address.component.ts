@@ -19,6 +19,7 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
   public selectedCountry = 'Bangladesh';
   public stateList: IState[] = [];
   public selectedState = 'Dhaka';
+  public rowGutter = { xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 };
 
   public sub: Subscription;
 
@@ -80,6 +81,10 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
         }
       );
     }
+  }
+
+  public skipThisStep(): void {
+    this.completeStep.emit(null);
   }
 
   ngOnDestroy(): void {

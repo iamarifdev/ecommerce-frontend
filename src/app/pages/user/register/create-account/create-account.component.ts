@@ -10,7 +10,7 @@ import { ICustomer } from '../models/customer.model';
 @Component({
   selector: 'create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.scss']
+  styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit, OnDestroy {
   public accountForm: FormGroup;
@@ -40,13 +40,14 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       phoneNo: [
         null,
         Validators.compose([Validators.required, Validators.pattern(/^01[3456789][0-9]{8}$/)]),
-        !this.customer && this.validationService.validateIdentity(this.registerService.validateCustomer, 'phoneNo')
+        !this.customer && this.validationService.validateIdentity(this.registerService.validateCustomer, 'phoneNo'),
       ],
+      password: [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(32)])],
       verificationCode: [
         null,
-        Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)])
+        Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)]),
       ],
-      email: [null, [Validators.email]]
+      email: [null, [Validators.email]],
     });
 
     if (this.customer) {
@@ -60,13 +61,13 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (phoneNo) {
       this.asyncService.start();
       this.sendSub = this.registerService.sendVerificationCode(phoneNo).subscribe(
-        response => {
+        (response) => {
           if (response.success && response.result) {
             this.isVerificationCodeSent = true;
           }
           this.asyncService.finish();
         },
-        error => {
+        (error) => {
           console.log(error);
           this.isVerificationCodeSent = false;
           this.asyncService.finish();
@@ -83,13 +84,13 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (phoneNo && verificationCode) {
       this.asyncService.start();
       this.verifySub = this.registerService.verifyPhoneNumber(phoneNo, verificationCode).subscribe(
-        response => {
+        (response) => {
           if (response.success && response.result) {
             this.isVerified = response.result;
           }
           this.asyncService.finish();
         },
-        error => {
+        (error) => {
           console.log(error);
           this.isVerified = false;
           this.asyncService.finish();
@@ -102,18 +103,18 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (this.accountForm.invalid) {
       return;
     }
-    const { phoneNo, verificationCode, email } = this.accountForm.value;
+    const { phoneNo, verificationCode, password, email } = this.accountForm.value;
     if (phoneNo && verificationCode) {
       this.asyncService.start();
-      this.createSub = this.registerService.createAccount(phoneNo, verificationCode, email).subscribe(
-        response => {
+      this.createSub = this.registerService.createAccount(phoneNo, verificationCode, password, email).subscribe(
+        (response) => {
           if (response.success && response.result) {
             this.accountCreated = !!response.result;
             this.completeStep.emit(response.result);
           }
           this.asyncService.finish();
         },
-        error => {
+        (error) => {
           console.log(error);
           this.accountCreated = false;
           this.asyncService.finish();

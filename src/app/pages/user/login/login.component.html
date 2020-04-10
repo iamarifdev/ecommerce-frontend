@@ -21,15 +21,14 @@
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>
-          <nz-form-item>
+          <nz-form-item class="mb-0">
             <nz-form-control>
               <label nz-checkbox formControlName="remember">
                 <span>Remember me</span>
               </label>
               <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-              <button nzSize="large" nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
-              Or
-              <a>register now!</a>
+              <button nzSize="large" nz-button class="login-form-button" nzType="primary">Log in</button>
+              <a class="mb-0" nzBlock routerLink="/user/register" nzSize="large" nz-button>Don't have account? Register now</a>
             </nz-form-control>
           </nz-form-item>
         </form>
