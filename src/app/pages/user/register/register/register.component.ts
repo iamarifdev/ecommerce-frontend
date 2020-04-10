@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ICustomer } from '../models/customer.model';
+import { Customer } from '../models/customer.model';
 
 @Component({
   selector: 'register',
@@ -7,7 +7,7 @@ import { ICustomer } from '../models/customer.model';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  public customer: ICustomer;
+  public customer: Customer;
   public index = 0;
   public disable = false;
   public step = 1;
@@ -16,13 +16,13 @@ export class RegisterComponent {
     this.index = index;
   }
 
-  public onCreateAccount(customer: ICustomer): void {
+  public onCreateAccount(customer: Customer): void {
     this.customer = customer;
     this.step = 2;
     this.changeIndex(1);
   }
 
-  public onAddBillingAddress(customer: ICustomer): void {
+  public onAddBillingAddress(customer: Customer): void {
     if (customer) {
       this.customer = customer;
     }
@@ -30,7 +30,7 @@ export class RegisterComponent {
     this.changeIndex(2);
   }
 
-  public onAddShippingAddress(customer: ICustomer): void {
+  public onAddShippingAddress(customer: Customer): void {
     if (customer) {
       this.customer = customer;
     }

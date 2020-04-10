@@ -1,3 +1,3 @@
-export interface IIdentityResult {
+export interface IdentityResult {
   isValid: boolean;
 }

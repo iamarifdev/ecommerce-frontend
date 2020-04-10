@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
 import { AsyncService } from '../../../../shared/services/async.service';
 import { RegisterService } from '../register.service';
-import { ICustomer } from '../models/customer.model';
+import { Customer } from '../models/customer.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -23,10 +23,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   public sub: Subscription;
 
   @Input()
-  public customer: ICustomer;
+  public customer: Customer;
 
   @Output()
-  public completeStep = new EventEmitter<ICustomer>(null);
+  public completeStep = new EventEmitter<Customer>(null);
 
   compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
 
@@ -37,8 +37,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       sameToBillingAddress: [false, Validators.required],
       phoneNo: [null, Validators.required],
       email: [null, Validators.email],
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
+      fullName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
       country: [null, Validators.required],
       state: [null, Validators.required],
       address: [null, Validators.required],
@@ -53,6 +52,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     } else {
       this.shippingAddressForm.patchValue({
         phoneNo: this.customer.phoneNo,
+        fullName: this.customer.fullName,
         email: this.customer.email || null
       });
     }

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AsyncService } from '../../../../shared/services/async.service';
 import { AsyncValidationService } from '../../../../shared/services/async-validation.service';
 import { RegisterService } from '../register.service';
-import { ICustomer } from '../models/customer.model';
+import { Customer } from '../models/customer.model';
 
 @Component({
   selector: 'create-account',
@@ -23,10 +23,10 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   public createSub: Subscription;
 
   @Input()
-  public customer: ICustomer;
+  public customer: Customer;
 
   @Output()
-  public completeStep = new EventEmitter<ICustomer>(null);
+  public completeStep = new EventEmitter<Customer>(null);
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +47,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
         null,
         Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)]),
       ],
+      fullName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
       email: [null, [Validators.email]],
     });
 
@@ -103,23 +104,25 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (this.accountForm.invalid) {
       return;
     }
-    const { phoneNo, verificationCode, password, email } = this.accountForm.value;
+    const { phoneNo, verificationCode, password, fullName, email } = this.accountForm.value;
     if (phoneNo && verificationCode) {
       this.asyncService.start();
-      this.createSub = this.registerService.createAccount(phoneNo, verificationCode, password, email).subscribe(
-        (response) => {
-          if (response.success && response.result) {
-            this.accountCreated = !!response.result;
-            this.completeStep.emit(response.result);
+      this.createSub = this.registerService
+        .createAccount({ phoneNo, verificationCode, password, fullName, email })
+        .subscribe(
+          (response) => {
+            if (response.success && response.result) {
+              this.accountCreated = !!response.result;
+              this.completeStep.emit(response.result);
+            }
+            this.asyncService.finish();
+          },
+          (error) => {
+            console.log(error);
+            this.accountCreated = false;
+            this.asyncService.finish();
           }
-          this.asyncService.finish();
-        },
-        (error) => {
-          console.log(error);
-          this.accountCreated = false;
-          this.asyncService.finish();
-        }
-      );
+        );
     }
   }
 

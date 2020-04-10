@@ -6,11 +6,11 @@
         <b>Login | eWebShop</b>
       </ng-template>
       <nz-card [nzTitle]="cardTitle">
-        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
           <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
               <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="phone" placeholder="Phone" />
+                <input type="text" nz-input formControlName="phoneNo" placeholder="Phone" />
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>
@@ -27,12 +27,23 @@
                 <span>Remember me</span>
               </label>
               <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-              <button nzSize="large" nz-button class="login-form-button" nzType="primary">Log in</button>
-              <a class="mb-0" nzBlock routerLink="/user/register" nzSize="large" nz-button>Don't have account? Register now</a>
+              <button
+                nzSize="large"
+                nz-button
+                class="login-form-button"
+                nzType="primary"
+                [disabled]="loginForm.invalid || asyncService.loading"
+                [nzLoading]="asyncService.loading"
+              >
+                Log in
+              </button>
+              <a class="mb-0" nzBlock routerLink="/user/register" nzSize="large" nz-button
+                >Don't have account? Register now</a
+              >
             </nz-form-control>
           </nz-form-item>
         </form>
       </nz-card>
     </div>
-    </nz-content>
-  </nz-layout>
+  </nz-content>
+</nz-layout>

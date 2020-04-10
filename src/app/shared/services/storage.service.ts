@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AuthUser } from '../../models';
 
 @Injectable()
 export class StorageService {
-  getUser(): any {
+  getUser(): AuthUser {
     return JSON.parse(window.localStorage.getItem('authUser'));
   }
 
-  saveUser(user: any) {
+  saveUser(user: AuthUser) {
     window.localStorage.setItem('authUser', JSON.stringify(user));
   }
 

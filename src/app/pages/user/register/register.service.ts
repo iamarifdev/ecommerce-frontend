@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../../../shared/services/api.service';
-import { ApiResponse, IIdentityResult } from '../../../models';
-import { ICustomer, ICustomerAddress } from './models/customer.model';
+import { ApiResponse, IdentityResult } from '../../../models';
+import { Customer, CustomerAddress, CustomerAddModel } from './models';
 
 @Injectable()
 export class RegisterService {
@@ -23,26 +23,21 @@ export class RegisterService {
     });
   }
 
-  public validateCustomer = (fieldName: string, controlValue: string): Observable<ApiResponse<IIdentityResult>> => {
-    return this.apiService.post<ApiResponse<IIdentityResult>>(`${this.customerUrl}/validate/identity`, {
+  public validateCustomer = (fieldName: string, controlValue: string): Observable<ApiResponse<IdentityResult>> => {
+    return this.apiService.post<ApiResponse<IdentityResult>>(`${this.customerUrl}/validate/identity`, {
       [fieldName]: controlValue
     });
   };
 
-  public createAccount(phoneNo: string, verificationCode: string, password: string, email?: string): Observable<ApiResponse<ICustomer>> {
-    return this.apiService.post<ApiResponse<ICustomer>>(`${this.customerUrl}/add`, {
-      phoneNo,
-      verificationCode,
-      password,
-      email
-    });
+  public createAccount(customer: CustomerAddModel): Observable<ApiResponse<Customer>> {
+    return this.apiService.post<ApiResponse<Customer>>(`${this.customerUrl}/add`, customer);
   }
 
   public updateBillingAddress(
     customerId: string,
-    billingAddress: ICustomerAddress
-  ): Observable<ApiResponse<ICustomer>> {
-    return this.apiService.patch<ApiResponse<ICustomer>>(
+    billingAddress: CustomerAddress
+  ): Observable<ApiResponse<Customer>> {
+    return this.apiService.patch<ApiResponse<Customer>>(
       `${this.customerUrl}/update/${customerId}/address/billing`,
       billingAddress
     );
@@ -50,11 +45,11 @@ export class RegisterService {
 
   public updateShippingAddress(
     customerId: string,
-    shippingAddress: ICustomerAddress
-  ): Observable<ApiResponse<ICustomer>> {
+    shippingAddress: CustomerAddress
+  ): Observable<ApiResponse<Customer>> {
     const { sameToBillingAddress, ...address } = shippingAddress;
     const payload = sameToBillingAddress ? { sameToBillingAddress } : address;
-    return this.apiService.patch<ApiResponse<ICustomer>>(
+    return this.apiService.patch<ApiResponse<Customer>>(
       `${this.customerUrl}/update/${customerId}/address/shipping`,
       payload
     );

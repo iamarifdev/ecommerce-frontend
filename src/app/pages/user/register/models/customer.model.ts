@@ -1,11 +1,10 @@
-export interface ICustomer {
+export interface Customer {
   id: string;
   phoneNo: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  billingAddress: ICustomerAddress;
-  shippingAddress: ICustomerAddress;
+  fullName: string;
+  billingAddress: CustomerAddress;
+  shippingAddress: CustomerAddress;
   avatarUrl: string;
   profileCompleteness: number;
   isEnabled: boolean;
@@ -13,11 +12,10 @@ export interface ICustomer {
   updatedAt: Date;
 }
 
-export interface ICustomerAddress {
+export interface CustomerAddress {
   phoneNo: string;
   email?: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   country: string;
   state: string;
   address: string;

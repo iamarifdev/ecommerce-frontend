@@ -3,13 +3,13 @@ import { Observable } from 'rxjs';
 import { map, debounceTime } from 'rxjs/operators';
 
 import { ApiResponse } from './../../models/api-response.model';
-import { IIdentityResult } from '../../models/identity-result.model';
+import { IdentityResult } from '../../models/identity-result.model';
 import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Injectable()
 export class AsyncValidationService {
   validateIdentity(
-    validate: (key: string, value: string) => Observable<ApiResponse<IIdentityResult>>,
+    validate: (key: string, value: string) => Observable<ApiResponse<IdentityResult>>,
     key: string
   ): AsyncValidatorFn {
     return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
