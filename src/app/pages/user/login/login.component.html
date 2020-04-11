@@ -6,6 +6,13 @@
         <b>Login | eWebShop</b>
       </ng-template>
       <nz-card [nzTitle]="cardTitle">
+        <nz-alert
+          class="mb-1"
+          *ngIf="errorMessage"
+          nzType="error"
+          [nzMessage]="errorMessage"
+          nzShowIcon
+        ></nz-alert>
         <form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
           <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">

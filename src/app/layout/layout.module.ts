@@ -2,19 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { pagesRoutes } from './pages.routes';
+import { LayoutComponent } from './layout.component';
+import { HeaderComponent } from './header/header.component';
 import { SharedModule } from '../shared/shared.module';
-import { CartsModule } from './orders/carts/carts.module';
-import { LayoutModule } from '../layout/layout.module';
+import { CartsModule } from '../pages/orders/carts/carts.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(pagesRoutes),
+    RouterModule,
     CartsModule,
-    LayoutModule,
     SharedModule
   ],
-  declarations: []
+  declarations: [LayoutComponent, HeaderComponent]
 })
-export class PagesModule { }
+export class LayoutModule { }

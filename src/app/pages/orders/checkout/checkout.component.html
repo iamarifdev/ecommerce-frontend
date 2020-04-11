@@ -1,0 +1,27 @@
+<nz-tabset
+  nzTabPosition="left"
+  [(nzSelectedIndex)]="selectedIndex"
+  (nzSelectChange)="log([$event])"
+>
+  <nz-tab nzTitle="Address" (nzSelect)="log(['select'])" (nzClick)="log(['click'])" (nzDeselect)="log(['deselect'])">
+    Address here
+  </nz-tab>
+
+  <nz-tab
+    nzTitle="Shipping Method"
+    (nzSelect)="log(['select'])"
+    (nzClick)="log(['click'])"
+    (nzDeselect)="log(['deselect'])"
+  >
+    Shipping Method
+  </nz-tab>
+
+  <nz-tab
+    nzTitle="Payment Method"
+    (nzSelect)="log(['select'])"
+    (nzClick)="log(['click'])"
+    (nzDeselect)="log(['deselect'])"
+  >
+    Payment Method
+  </nz-tab>
+</nz-tabset>

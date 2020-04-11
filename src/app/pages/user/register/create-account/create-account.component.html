@@ -1,6 +1,6 @@
 <form class="register-step-form" nz-form [formGroup]="accountForm" (ngSubmit)="createAccount()">
   <nz-alert
-    *ngIf="accountForm.get('phoneNo').hasError('invalidIdentity')"
+    *ngIf=""
     nzType="warning"
     nzMessage="Phone number already in use!"
     nzShowIcon

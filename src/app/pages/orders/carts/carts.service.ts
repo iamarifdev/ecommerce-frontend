@@ -4,18 +4,28 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ICartAddProduct, ICart, ICartUpdateProductQuantity } from './models';
-import { ApiResponse } from '../../../../app/models';
+import { ApiResponse, AuthUser } from '../../../../app/models';
+import { UserService } from '../../user/user.service';
 import { ApiService } from '../../../shared/services/api.service';
 import { AsyncService } from '../../../shared/services/async.service';
+import { StorageService } from '../../../shared/services/storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartsService {
   private cartProductsSubject = new BehaviorSubject<ICart>({} as ICart);
   private isCartOpen = false;
+  private authUser: AuthUser;
 
-  constructor(private apiService: ApiService, private asyncService: AsyncService) {}
+  constructor(
+    private apiService: ApiService,
+    private asyncService: AsyncService,
+    private storageService: StorageService,
+    private userService: UserService
+  ) {
+    this.userService.authUser$.subscribe((authUser) => (this.authUser = authUser));
+  }
 
   public get cartOpened() {
     return this.isCartOpen;
@@ -25,38 +35,45 @@ export class CartsService {
     this.isCartOpen = !this.isCartOpen;
   }
 
-  getCart() {
-    const cartId = localStorage.getItem('cartId');
-    if (!cartId) return;
-    const params = new HttpParams({ fromObject: { cartId } });
+  public getCart(): void {
+    const params: any = {};
+    if (this.authUser && this.authUser.userId) {
+      params.customerId = this.authUser.userId;
+    }
+    const cartId = this.storageService.getCartId();
+    if (cartId) {
+      params.cartId = cartId;
+    }
+    if (!Object.keys(params).length) return;
+    const queryParams = new HttpParams({ fromObject: params });
     this.asyncService.start();
-    const subscription = this.apiService.get<ApiResponse<ICart>>('/carts/id', params).subscribe(
-      response => {
+    const subscription = this.apiService.get<ApiResponse<ICart>>('/carts/id', queryParams).subscribe(
+      (response) => {
         if (response.success && response.result) {
           this.cartProductsSubject.next(response.result);
         }
         this.asyncService.finish();
         subscription.unsubscribe();
       },
-      error => {
-        localStorage.removeItem('cartId');
+      (error) => {
+        this.storageService.removeCartId();
         this.asyncService.finish();
         subscription.unsubscribe();
       }
     );
   }
 
-  addProduct(product: ICartAddProduct) {
-    const cartId = localStorage.getItem('cartId');
+  public addProduct(product: ICartAddProduct): Observable<ApiResponse<ICart>> {
+    const cartId = this.storageService.getCartId();
     if (cartId) {
       product.cartId = cartId;
     }
     this.asyncService.start();
     return this.apiService.post<ApiResponse<ICart>>('/carts/add/product', product).pipe(
-      map(response => {
+      map((response) => {
         if (response.success && response.result) {
           this.cartProductsSubject.next(response.result);
-          localStorage.setItem('cartId', response.result.id);
+          this.storageService.saveCartId(response.result.id);
         }
         this.toggleCart();
         this.asyncService.finish();
@@ -65,16 +82,16 @@ export class CartsService {
     );
   }
 
-  updateCartProductQuantity(update: ICartUpdateProductQuantity) {
+  public updateCartProductQuantity(update: ICartUpdateProductQuantity): void {
     const { cartId, cartProductId, productId, quantity } = update;
     if (cartId && productId && quantity) {
       this.asyncService.start();
       const subscription = this.apiService
         .patch<ApiResponse<ICart>>(`/carts/update/${cartId}/product-quantity`, { cartProductId, productId, quantity })
-        .subscribe(response => {
+        .subscribe((response) => {
           if (response.success && response.result) {
             this.cartProductsSubject.next(response.result);
-            localStorage.setItem('cartId', response.result.id);
+            this.storageService.saveCartId(response.result.id);
           }
           this.asyncService.finish();
           subscription.unsubscribe();

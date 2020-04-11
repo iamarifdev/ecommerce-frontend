@@ -165,6 +165,18 @@
   padding-right: 0 !important;
 }
 
+.pr-1 {
+  padding-right: 5px !important;
+}
+
+.pr-2 {
+  padding-right: 10px !important;
+}
+
+.pr-3 {
+  padding-right: 15px !important;
+}
+
 .pa-0 {
   padding: 0 !important;
 }
@@ -226,6 +238,16 @@
 
 .bold-style {
   font-weight: bold;
+}
+
+.btn-skew {
+  border: 0;
+  border-radius: 0;
+  transform-origin: top;
+  transform: skew(-21deg);
+  span {
+    transform: skew(21deg) !important;
+  }
 }
 
 .step {

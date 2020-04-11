@@ -12,7 +12,7 @@ export class StorageService {
   }
 
   getAccessToken(): string {
-    return window.localStorage['accessToken'];
+    return window.localStorage.getItem('accessToken');
   }
 
   saveAccessToken(accessToken: string) {
@@ -20,11 +20,23 @@ export class StorageService {
   }
 
   getRefreshToken(): string {
-    return window.localStorage['refreshToken'];
+    return window.localStorage.getItem('refreshToken');
   }
 
   saveRefreshToken(refreshToken: string) {
     window.localStorage['refreshToken'] = refreshToken;
+  }
+
+  getCartId(): string {
+    return window.localStorage.getItem('cartId');
+  }
+
+  saveCartId(cartId: string) {
+    window.localStorage.setItem('cartId', cartId);
+  }
+
+  removeCartId(): void {
+    return window.localStorage.removeItem('cartId');
   }
 
   getACL(): any {

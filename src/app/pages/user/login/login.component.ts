@@ -12,6 +12,7 @@ import { AsyncService } from '../../../shared/services/async.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  errorMessage: string;
 
   submitForm(): void {}
 
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
+      this.errorMessage = null;
       const { phoneNo, password } = this.loginForm.value;
       this.asyncService.start();
       this.userService.authenticate(phoneNo, password).subscribe(
@@ -43,8 +45,11 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           this.asyncService.finish();
-          // TODO: add login error message
-          console.log('Login error: ', error);
+          if (error.error) {
+            this.errorMessage = error.error.message;
+          } else {
+            this.errorMessage = 'Unknown error, try again.';
+          }
         }
       );
     }

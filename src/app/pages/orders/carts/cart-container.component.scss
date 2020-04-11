@@ -1,9 +1,13 @@
+.ant-drawer-header {
+  padding: 10px !important;
+}
+
 .footer {
   position: absolute;
   bottom: 0px;
   width: 100%;
   border-top: 1px solid rgb(232, 232, 232);
-  padding: 10px 16px;
+  // padding: 10px 16px;
   text-align: right;
   left: 0px;
   background: #fff;
@@ -30,11 +34,11 @@
 }
 
 .shopping-cart {
-  font-size: 30px;
+  font-size: 19px;
   nz-badge {
     margin-right: 20px;
     position: absolute;
-    top: 10px;
-    left: 45px;
+    top: 5px;
+    left: 35px;
   }
 }

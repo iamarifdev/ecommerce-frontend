@@ -1,10 +1,10 @@
 import { Route } from '@angular/router';
-import { PagesComponent } from './pages.component';
+import { LayoutComponent } from '../layout/layout.component';
 
 export const pagesRoutes: Route[] = [
   {
     path: '',
-    component: PagesComponent,
+    component: LayoutComponent,
     children: [
       {
         path: '',
@@ -18,6 +18,10 @@ export const pagesRoutes: Route[] = [
       {
         path: 'products',
         loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
+      },
+      {
+        path: 'orders',
+        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)
       }
     ]
   }

@@ -26,7 +26,8 @@ import {
   NzPopoverModule,
   NzResultModule,
   NzDropDownModule,
-  NzPageHeaderModule
+  NzPageHeaderModule,
+  NzTabsModule
 } from 'ng-zorro-antd';
 
 const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline, ShoppingCartOutline];
@@ -51,7 +52,8 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     NzPopoverModule,
     NzResultModule,
     NzDropDownModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    NzTabsModule
   ],
   exports: [
     ScrollingModule,
@@ -72,7 +74,8 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     NzPopoverModule,
     NzResultModule,
     NzDropDownModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    NzTabsModule
   ],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })

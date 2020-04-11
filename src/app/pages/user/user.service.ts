@@ -55,9 +55,9 @@ export class UserService {
         tap((response) => {
           if (response && response.success) {
             this.storageService.destroyAll();
-            this.router.navigateByUrl('/auth/login');
+            this.router.navigateByUrl('/home');
+            this.updateAuthUser(null);
           }
-          return response;
         })
       );
   }
