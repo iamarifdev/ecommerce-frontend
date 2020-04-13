@@ -1,0 +1,27 @@
+.shipping-method {
+  position: relative;
+  padding: 30px;
+  background-color: #fafafa;
+  border: 1px solid aliceblue;
+  &:hover {
+    background-color: aliceblue;
+    border: 1px solid #1890ff;
+    cursor: pointer;
+  }
+  &:focus {
+    background-color: aliceblue;
+    border: 1px solid #1890ff;
+    cursor: pointer;
+  }
+  .check-mark {
+    width: 28px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+}
+
+.selected {
+  background-color: aliceblue;
+  border: 1px solid #1890ff;
+}

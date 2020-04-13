@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -14,6 +15,7 @@ import { AsyncService } from './shared/services/async.service';
 import { StorageService } from './shared/services/storage.service';
 import { ApiService } from './shared/services/api.service';
 import { AsyncValidationService } from './shared/services/async-validation.service';
+import { RefreshTokenInterceptor } from './shared/interceptors/refresh-token.interceptor';
 
 registerLocaleData(en);
 
@@ -25,9 +27,16 @@ registerLocaleData(en);
     SharedModule,
     QuicklinkModule,
     AppRoutingModule,
-    CartsModule
+    CartsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, ApiService, StorageService, AsyncService, AsyncValidationService],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+    ApiService,
+    StorageService,
+    AsyncService,
+    AsyncValidationService,
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

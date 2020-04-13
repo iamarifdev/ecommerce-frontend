@@ -1,0 +1,16 @@
+<nz-row [nzGutter]="16">
+  <nz-col *ngFor="let method of shippingMethods" [nzSpan]="8">
+    <div
+      class="shipping-method"
+      [class.selected]="method.id === selectedMethod?.id"
+      (click)="selectShippingMethod(method)"
+    >
+      <img class="check-mark" *ngIf="method.id === selectedMethod?.id" src="/assets/images/icons/check-mark.svg" />
+      <nz-statistic [nzValue]="method.cost" [nzTitle]="method.methodName" [nzPrefix]="prefixTplOne" [nzSuffix]="' TK'">
+      </nz-statistic>
+      <ng-template #prefixTplOne>
+        <img [src]="'/assets/images/shipping-methods/' + method.iconName" width="32" />
+      </ng-template>
+    </div>
+  </nz-col>
+</nz-row>
