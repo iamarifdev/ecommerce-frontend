@@ -74,8 +74,10 @@ export class StorageService {
   }
 
   destroyAll() {
-    const language = this.getLanguageCode();
+    const cartId = this.getCartId();
     window.localStorage.clear();
-    this.setLanguageCode(language);
+    if (cartId) {
+      this.saveCartId(cartId);
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, concatMap } from 'rxjs/operators';
 
 import { ICartAddProduct, ICart, ICartUpdateProductQuantity } from './models';
 import { ApiResponse, AuthUser } from '../../../../app/models';
@@ -11,9 +11,10 @@ import { AsyncService } from '../../../shared/services/async.service';
 import { StorageService } from '../../../shared/services/storage.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CartsService {
+  private baseUrl = '/carts';
   private cartProductsSubject = new BehaviorSubject<ICart>({} as ICart);
   private isCartOpen = false;
   private authUser: AuthUser;
@@ -47,20 +48,32 @@ export class CartsService {
     if (!Object.keys(params).length) return;
     const queryParams = new HttpParams({ fromObject: params });
     this.asyncService.start();
-    const subscription = this.apiService.get<ApiResponse<ICart>>('/carts/id', queryParams).subscribe(
-      (response) => {
-        if (response.success && response.result) {
-          this.cartProductsSubject.next(response.result);
+    const subscription = this.apiService
+      .get<ApiResponse<ICart>>(`${this.baseUrl}/id`, queryParams)
+      .pipe(
+        concatMap((response) => {
+          if (response.success && response.result) {
+            if (this.authUser.userId && !response.result.customerId) {
+              return this.assignCustomerId(response.result.id, this.authUser.userId);
+            }
+          }
+          return of(response);
+        })
+      )
+      .subscribe(
+        (response) => {
+          if (response.success && response.result) {
+            this.cartProductsSubject.next(response.result);
+          }
+          this.asyncService.finish();
+          subscription.unsubscribe();
+        },
+        (error) => {
+          this.storageService.removeCartId();
+          this.asyncService.finish();
+          subscription.unsubscribe();
         }
-        this.asyncService.finish();
-        subscription.unsubscribe();
-      },
-      (error) => {
-        this.storageService.removeCartId();
-        this.asyncService.finish();
-        subscription.unsubscribe();
-      }
-    );
+      );
   }
 
   public addProduct(product: ICartAddProduct): Observable<ApiResponse<ICart>> {
@@ -68,8 +81,11 @@ export class CartsService {
     if (cartId) {
       product.cartId = cartId;
     }
+    if (this.authUser && this.authUser.userId) {
+      product.customerId = this.authUser.userId;
+    }
     this.asyncService.start();
-    return this.apiService.post<ApiResponse<ICart>>('/carts/add/product', product).pipe(
+    return this.apiService.post<ApiResponse<ICart>>(`${this.baseUrl}/add/product`, product).pipe(
       map((response) => {
         if (response.success && response.result) {
           this.cartProductsSubject.next(response.result);
@@ -87,7 +103,11 @@ export class CartsService {
     if (cartId && productId && quantity) {
       this.asyncService.start();
       const subscription = this.apiService
-        .patch<ApiResponse<ICart>>(`/carts/update/${cartId}/product-quantity`, { cartProductId, productId, quantity })
+        .patch<ApiResponse<ICart>>(`${this.baseUrl}/update/${cartId}/product-quantity`, {
+          cartProductId,
+          productId,
+          quantity
+        })
         .subscribe((response) => {
           if (response.success && response.result) {
             this.cartProductsSubject.next(response.result);
@@ -97,6 +117,10 @@ export class CartsService {
           subscription.unsubscribe();
         });
     }
+  }
+
+  public assignCustomerId(cartId: string, customerId: string): Observable<ApiResponse<ICart>> {
+    return this.apiService.patch<ApiResponse<ICart>>(`${this.baseUrl}/${cartId}/assign/${customerId}`, {});
   }
 
   get cart(): Observable<ICart> {

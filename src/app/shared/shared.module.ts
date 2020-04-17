@@ -12,6 +12,7 @@ import { ImageZoomViewerComponent } from './components/image-zoom-viewer/image-z
 import { ItemCounterComponent } from '../pages/orders/carts';
 import { NgAntdModule } from './ng-antd.module';
 import { PageNotFoundComponent } from './components/page-not-found.component';
+import { ScrollableDirective } from './directives';
 const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
 
 @NgModule({
@@ -29,6 +30,7 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     OverlayLoaderComponent,
     ImageZoomViewerComponent,
     ItemCounterComponent,
+    ScrollableDirective,
     PageNotFoundComponent
   ],
   exports: [
@@ -42,7 +44,8 @@ const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline
     CartOpenerComponent,
     OverlayLoaderComponent,
     ImageZoomViewerComponent,
-    ItemCounterComponent
+    ItemCounterComponent,
+    ScrollableDirective
   ],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
