@@ -129,6 +129,26 @@
   margin-left: 35px !important;
 }
 
+.mr-0 {
+  margin-right: 0 !important;
+}
+
+.mr-1 {
+  margin-right: 10px !important;
+}
+
+.mr-2 {
+  margin-right: 15px !important;
+}
+
+.mr-3 {
+  margin-right: 25px !important;
+}
+
+.mr-4 {
+  margin-right: 35px !important;
+}
+
 .mt-0 {
   margin-top: 0 !important;
 }
@@ -271,4 +291,40 @@
       width: 100% !important;
     }
   }
+}
+
+.payment-method,
+.shipping-method {
+  position: relative;
+  padding: 15px 30px;
+  background-color: #fafafa;
+  border: 1px solid aliceblue;
+  nz-statistic {
+    .ant-statistic-title {
+      margin-bottom: 15px;
+      font-size: 16px !important;
+      font-weight: bold !important;
+    }
+  }
+  &:hover {
+    background-color: aliceblue;
+    border: 1px solid #1890ff;
+    cursor: pointer;
+  }
+  &:focus {
+    background-color: aliceblue;
+    border: 1px solid #1890ff;
+    cursor: pointer;
+  }
+  .check-mark {
+    width: 28px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+}
+
+.selected {
+  background-color: aliceblue;
+  border: 1px solid #1890ff;
 }

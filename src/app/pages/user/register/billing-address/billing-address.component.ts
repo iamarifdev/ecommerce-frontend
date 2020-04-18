@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
 import { AsyncService } from '../../../../shared/services/async.service';
 import { RegisterService } from '../register.service';
-import { Customer } from '../models/customer.model';
+import { Customer } from '../../../../models/customer.model';
 
 @Component({
   selector: 'billing-address',

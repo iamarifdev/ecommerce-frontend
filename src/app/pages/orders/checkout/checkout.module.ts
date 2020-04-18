@@ -5,6 +5,7 @@ import { Route, RouterModule } from '@angular/router';
 import { CheckoutComponent } from './checkout.component';
 import { ChooseShippingMethodComponent } from './choose-shipping-method/choose-shipping-method.component';
 import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-payment-method.component';
+import { CustomerAddressComponent } from './customer-address/customer-address.component';
 import { CheckoutService } from './checkout.service';
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -17,7 +18,12 @@ const routes: Route[] = [
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
-  declarations: [CheckoutComponent, ChooseShippingMethodComponent, ChoosePaymentMethodComponent],
+  declarations: [
+    CheckoutComponent,
+    ChooseShippingMethodComponent,
+    ChoosePaymentMethodComponent,
+    CustomerAddressComponent
+  ],
   providers: [CheckoutService]
 })
 export class CheckoutModule {}

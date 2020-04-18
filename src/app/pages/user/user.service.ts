@@ -6,11 +6,14 @@ import { first, tap } from 'rxjs/operators';
 import { ApiResponse, AuthUser, RefreshTokenPair } from '../../models';
 import { ApiService } from '../../shared/services/api.service';
 import { StorageService } from '../../shared/services/storage.service';
+import { Customer } from './register/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private authUserSubJect = new BehaviorSubject<AuthUser>(null);
+
   constructor(
     private readonly router: Router,
     private readonly apiService: ApiService,
@@ -19,7 +22,6 @@ export class UserService {
     this.reloadAuthUser();
   }
 
-  private authUserSubJect = new BehaviorSubject<AuthUser>(null);
 
   private reloadAuthUser(): void {
     if (!this.authUser) {
@@ -28,6 +30,10 @@ export class UserService {
         this.authUserSubJect.next(authUser);
       }
     }
+  }
+
+  public getUserDetails(): Observable<ApiResponse<Customer>> {
+    return this.apiService.get<ApiResponse<Customer>>(`/customers/${this.authUser.userId}`);
   }
 
   public authenticate(phoneNo: string, password: string): Observable<ApiResponse<AuthUser>> {

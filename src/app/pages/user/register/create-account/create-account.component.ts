@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AsyncService } from '../../../../shared/services/async.service';
 import { AsyncValidationService } from '../../../../shared/services/async-validation.service';
 import { RegisterService } from '../register.service';
-import { Customer } from '../models/customer.model';
+import { Customer } from '../../../../models/customer.model';
 
 @Component({
   selector: 'create-account',

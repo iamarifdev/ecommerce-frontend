@@ -1,3 +1,15 @@
+export interface CustomerAddress {
+  phoneNo: string;
+  email?: string;
+  fullName: string;
+  country: string;
+  state: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  sameToBillingAddress?: boolean;
+}
+
 export interface Customer {
   id: string;
   phoneNo: string;
@@ -10,16 +22,4 @@ export interface Customer {
   isEnabled: boolean;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface CustomerAddress {
-  phoneNo: string;
-  email?: string;
-  fullName: string;
-  country: string;
-  state: string;
-  address: string;
-  city: string;
-  postalCode: string;
-  sameToBillingAddress?: boolean;
 }

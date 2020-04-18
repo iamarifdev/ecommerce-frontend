@@ -1,2 +1,2 @@
 export * from './customer-add.model';
-export * from './customer.model';
+export * from '../../../../models/customer.model';

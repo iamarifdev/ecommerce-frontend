@@ -1,0 +1,14 @@
+<nz-card [nzBordered]="false" *ngIf="address" [nzTitle]="titleRef">
+  <p><b>Name: </b> {{ address?.fullName }}</p>
+  <p><b>Phone No.: </b> {{ address?.phoneNo }}</p>
+  <p *ngIf="address?.email"><b>Name: </b> {{ address?.email }}</p>
+  <p><b>Country: </b> {{ address?.country }}</p>
+  <p><b>State: </b> {{ address?.state }}</p>
+  <p><b>City: </b> {{ address?.city }}</p>
+  <p><b>Post Code: </b> {{ address?.postalCode }}</p>
+  <p><b>Address: </b> {{ address?.address }}</p>
+</nz-card>
+
+<ng-template #titleRef>
+  <i nz-icon nzType="environment" nzTheme="outline"></i> {{ title }}
+</ng-template>

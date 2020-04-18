@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
 import { AsyncService } from '../../../../shared/services/async.service';
 import { RegisterService } from '../register.service';
-import { Customer } from '../models/customer.model';
+import { Customer } from '../../../../models/customer.model';
 import { Subscription } from 'rxjs';
 
 @Component({
