@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
-import { AsyncService } from '../../../../shared/services/async.service';
-import { RegisterService } from '../register.service';
-import { Customer } from '../../../../models/customer.model';
 import { Subscription } from 'rxjs';
+
+import { getCountries, getStates, ICountry, IState } from '../../../data/country-states.data';
+import { AsyncService } from '../../../shared/services/async.service';
+import { Customer } from '../../../models/customer.model';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'shipping-address',
@@ -21,16 +21,30 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   public rowGutter = { xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 };
 
   public sub: Subscription;
+  public customer: Customer;
 
   @Input()
-  public customer: Customer;
+  public allowSkip = true;
+
+  @Input()
+  public set customerData(value: Customer) {
+    this.customer = value;
+    if (!this.shippingAddressForm) {
+      return;
+    }
+    this.initilizeForm();
+  }
+
+  @Input()
+  public buttonText = 'Next';
+
 
   @Output()
   public completeStep = new EventEmitter<Customer>(null);
 
   compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
 
-  constructor(private fb: FormBuilder, public asyncService: AsyncService, private registerService: RegisterService) {}
+  constructor(private fb: FormBuilder, public asyncService: AsyncService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.shippingAddressForm = this.fb.group({
@@ -46,15 +60,20 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     });
 
     this.countryList = getCountries();
+    this.initilizeForm();
+  }
 
+  public initilizeForm(): void {
     if (this.customer && this.customer.shippingAddress) {
       this.shippingAddressForm.patchValue(this.customer.shippingAddress);
     } else {
-      this.shippingAddressForm.patchValue({
-        phoneNo: this.customer.phoneNo,
-        fullName: this.customer.fullName,
-        email: this.customer.email || null
-      });
+      if (this.customer) {
+        this.shippingAddressForm.patchValue({
+          phoneNo: this.customer.phoneNo,
+          fullName: this.customer.fullName,
+          email: this.customer.email || null
+        });
+      }
     }
   }
 
@@ -68,15 +87,15 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   public updateShippingAddress(): void {
     if (this.customer && this.shippingAddressForm.valid) {
       this.asyncService.start();
-      this.sub = this.registerService.updateShippingAddress(this.customer.id, this.shippingAddressForm.value).subscribe(
-        response => {
+      this.sub = this.userService.updateShippingAddress(this.customer.id, this.shippingAddressForm.value).subscribe(
+        (response) => {
           if (response.success && response.result) {
             this.customer = response.result;
             this.completeStep.emit(response.result);
           }
           this.asyncService.finish();
         },
-        error => {
+        (error) => {
           console.log(error);
           this.asyncService.finish();
         }

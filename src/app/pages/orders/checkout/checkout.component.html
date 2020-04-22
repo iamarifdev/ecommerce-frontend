@@ -5,13 +5,29 @@
         class="mr-2"
         *ngIf="customer?.billingAddress"
         [address]="customer?.billingAddress"
-        [title]="'Billing Address'"
+        title="Billing Address"
       ></customer-address>
+      <nz-card class="mr-2" *ngIf="!customer?.billingAddress" nzTitle="Billing Address">
+        <billing-address
+          [allowSkip]="false"
+          [customerData]="customer"
+          buttonText="Update"
+          (completeStep)="onUpdateAddress($event)"
+        ></billing-address>
+      </nz-card>
       <customer-address
         *ngIf="customer?.shippingAddress"
         [address]="customer?.shippingAddress"
-        [title]="'Shipping Address'"
+        title="Shipping Address"
       ></customer-address>
+      <nz-card *ngIf="!customer?.shippingAddress" nzTitle="Shipping Address">
+        <shipping-address
+          [allowSkip]="false"
+          [customerData]="customer"
+          buttonText="Update"
+          (completeStep)="onUpdateAddress($event)"
+        ></shipping-address>
+      </nz-card>
     </div>
   </nz-tab>
 

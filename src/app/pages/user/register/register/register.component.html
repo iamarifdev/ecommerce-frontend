@@ -17,13 +17,13 @@
           *ngIf="index === 0"
         ></create-account>
         <billing-address
-          [customer]="customer"
+          [customerData]="customer"
           (completeStep)="onAddBillingAddress($event)"
           class="step"
           *ngIf="index === 1"
         ></billing-address>
         <shipping-address
-          [customer]="customer"
+          [customerData]="customer"
           (completeStep)="onAddShippingAddress($event)"
           class="step"
           *ngIf="index === 2"

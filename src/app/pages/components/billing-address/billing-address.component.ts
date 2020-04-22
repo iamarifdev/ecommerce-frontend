@@ -2,10 +2,10 @@ import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { getCountries, getStates, ICountry, IState } from '../../../../data/country-states.data';
-import { AsyncService } from '../../../../shared/services/async.service';
-import { RegisterService } from '../register.service';
-import { Customer } from '../../../../models/customer.model';
+import { getCountries, getStates, ICountry, IState } from '../../../data/country-states.data';
+import { AsyncService } from '../../../shared/services/async.service';
+import { Customer } from '../../../models/customer.model';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'billing-address',
@@ -22,16 +22,29 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
   public rowGutter = { xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 };
 
   public sub: Subscription;
+  public customer: Customer;
 
   @Input()
-  public customer: Customer;
+  public set customerData(value: Customer) {
+    this.customer = value;
+    if (!this.billingAddressForm) {
+      return;
+    }
+    this.initilizeForm();
+  }
+
+  @Input()
+  public allowSkip = true;
+
+  @Input()
+  public buttonText = 'Next';
 
   @Output()
   public completeStep = new EventEmitter<Customer>(null);
 
   compareFn = (o1: any, o2: any) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
 
-  constructor(private fb: FormBuilder, public asyncService: AsyncService, private registerService: RegisterService) {}
+  constructor(private fb: FormBuilder, public asyncService: AsyncService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.billingAddressForm = this.fb.group({
@@ -46,18 +59,24 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
     });
 
     this.countryList = getCountries();
+    this.initilizeForm();
+  }
+
+  public initilizeForm(): void {
     if (this.customer && this.customer.billingAddress) {
       this.billingAddressForm.patchValue(this.customer.billingAddress);
     } else {
-      this.billingAddressForm.patchValue({
-        phoneNo: this.customer.phoneNo,
-        fullName: this.customer.fullName,
-        email: this.customer.email || null
-      });
+      if (this.customer) {
+        this.billingAddressForm.patchValue({
+          phoneNo: this.customer.phoneNo,
+          fullName: this.customer.fullName,
+          email: this.customer.email || null
+        });
+      }
     }
   }
 
-  public onChangeCountry() {
+  public onChangeCountry(): void {
     if (this.selectedCountry) {
       this.stateList = getStates(this.selectedCountry);
       this.selectedState = this.stateList[0].name;
@@ -67,15 +86,15 @@ export class BillingAddressComponent implements OnInit, OnDestroy {
   public updateBillingAddress(): void {
     if (this.customer && this.billingAddressForm.valid) {
       this.asyncService.start();
-      this.sub = this.registerService.updateBillingAddress(this.customer.id, this.billingAddressForm.value).subscribe(
-        response => {
+      this.sub = this.userService.updateBillingAddress(this.customer.id, this.billingAddressForm.value).subscribe(
+        (response) => {
           if (response.success && response.result) {
             this.customer = response.result;
             this.completeStep.emit(response.result);
           }
           this.asyncService.finish();
         },
-        error => {
+        (error) => {
           console.log(error);
           this.asyncService.finish();
         }

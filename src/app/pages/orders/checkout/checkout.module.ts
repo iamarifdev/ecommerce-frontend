@@ -5,9 +5,9 @@ import { Route, RouterModule } from '@angular/router';
 import { CheckoutComponent } from './checkout.component';
 import { ChooseShippingMethodComponent } from './choose-shipping-method/choose-shipping-method.component';
 import { ChoosePaymentMethodComponent } from './choose-payment-method/choose-payment-method.component';
-import { CustomerAddressComponent } from './customer-address/customer-address.component';
 import { CheckoutService } from './checkout.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { ComponentsModule } from '../../components/components.module';
 
 const routes: Route[] = [
   {
@@ -17,12 +17,11 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, ComponentsModule],
   declarations: [
     CheckoutComponent,
     ChooseShippingMethodComponent,
-    ChoosePaymentMethodComponent,
-    CustomerAddressComponent
+    ChoosePaymentMethodComponent
   ],
   providers: [CheckoutService]
 })

@@ -91,7 +91,7 @@
     </div>
   </div>
   <div nz-row [nzGutter]="rowGutter">
-    <div nz-col [nzSpan]="12">
+    <div nz-col [nzSpan]="allowSkip ? 12 : 24">
       <button
       [disabled]="shippingAddressForm.invalid || shippingAddressForm.pristine"
         [nzLoading]="asyncService.loading"
@@ -100,10 +100,10 @@
         nzBlock
         nzType="primary"
       >
-        Next <i nz-icon nzType="double-right" nzTheme="outline"></i>
+      {{ buttonText || 'Next'}} <i nz-icon nzType="double-right" nzTheme="outline"></i>
       </button>
     </div>
-    <div nz-col [nzSpan]="12">
+    <div *ngIf="allowSkip" nz-col [nzSpan]="12">
       <button nzBlock nzSize="large" nz-button nzType="default" (click)="skipThisStep()">Skip</button>
     </div>
   </div>

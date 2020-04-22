@@ -32,26 +32,4 @@ export class RegisterService {
   public createAccount(customer: CustomerAddModel): Observable<ApiResponse<Customer>> {
     return this.apiService.post<ApiResponse<Customer>>(`${this.customerUrl}/add`, customer);
   }
-
-  public updateBillingAddress(
-    customerId: string,
-    billingAddress: CustomerAddress
-  ): Observable<ApiResponse<Customer>> {
-    return this.apiService.patch<ApiResponse<Customer>>(
-      `${this.customerUrl}/update/${customerId}/address/billing`,
-      billingAddress
-    );
-  }
-
-  public updateShippingAddress(
-    customerId: string,
-    shippingAddress: CustomerAddress
-  ): Observable<ApiResponse<Customer>> {
-    const { sameToBillingAddress, ...address } = shippingAddress;
-    const payload = sameToBillingAddress ? { sameToBillingAddress } : address;
-    return this.apiService.patch<ApiResponse<Customer>>(
-      `${this.customerUrl}/update/${customerId}/address/shipping`,
-      payload
-    );
-  }
 }

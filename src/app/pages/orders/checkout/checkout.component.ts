@@ -7,7 +7,7 @@ import { Customer } from '../../user/register/models';
 @Component({
   selector: 'checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss'],
+  styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
   public selectedIndex = 0;
@@ -21,20 +21,22 @@ export class CheckoutComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.getUserDetails().subscribe(response => {
+    this.userService.getUserDetails().subscribe((response) => {
       if (response.success && response.result) {
         this.customer = response.result;
       }
     });
   }
 
+  public onUpdateAddress(customer: Customer): void {
+    this.customer = customer;
+  }
+
   public onChooseShippingMethod(shippingMethod: IShippingMethod): void {
     this.checkout = { ...this.checkout, shippingMethod };
-    console.log('this.checkout: ', this.checkout);
   }
 
   public onChoosePaymentMethod(paymenthMethod: IPaymentMethod): void {
     this.checkout = { ...this.checkout, paymenthMethod };
-    console.log('this.checkout: ', this.checkout);
   }
 }

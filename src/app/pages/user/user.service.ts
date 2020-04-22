@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
-import { ApiResponse, AuthUser, RefreshTokenPair } from '../../models';
+import { ApiResponse, AuthUser, RefreshTokenPair, CustomerAddress } from '../../models';
 import { ApiService } from '../../shared/services/api.service';
 import { StorageService } from '../../shared/services/storage.service';
 import { Customer } from './register/models';
@@ -12,6 +12,7 @@ import { Customer } from './register/models';
   providedIn: 'root'
 })
 export class UserService {
+  private customerUrl = '/customers';
   private authUserSubJect = new BehaviorSubject<AuthUser>(null);
 
   constructor(
@@ -21,7 +22,6 @@ export class UserService {
   ) {
     this.reloadAuthUser();
   }
-
 
   private reloadAuthUser(): void {
     if (!this.authUser) {
@@ -76,8 +76,27 @@ export class UserService {
     return this.apiService.post<ApiResponse<RefreshTokenPair>>('/auth/token/refresh', {
       userId: user.userId,
       accessToken,
-      refreshToken,
+      refreshToken
     });
+  }
+
+  public updateBillingAddress(customerId: string, billingAddress: CustomerAddress): Observable<ApiResponse<Customer>> {
+    return this.apiService.patch<ApiResponse<Customer>>(
+      `${this.customerUrl}/update/${customerId}/address/billing`,
+      billingAddress
+    );
+  }
+
+  public updateShippingAddress(
+    customerId: string,
+    shippingAddress: CustomerAddress
+  ): Observable<ApiResponse<Customer>> {
+    const { sameToBillingAddress, ...address } = shippingAddress;
+    const payload = sameToBillingAddress ? { sameToBillingAddress } : address;
+    return this.apiService.patch<ApiResponse<Customer>>(
+      `${this.customerUrl}/update/${customerId}/address/shipping`,
+      payload
+    );
   }
 
   public get authUser$(): Observable<AuthUser> {

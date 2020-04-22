@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { CustomerAddress } from '../../../../models';
+import { CustomerAddress } from '../../user/register/models';
 
 @Component({
   selector: 'customer-address',
