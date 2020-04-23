@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { IShippingMethod, IPaymentMethod } from './models';
-import { UserService } from '../../user/user.service';
 import { Customer } from '../../user/register/models';
+import { UserService } from '../../user/user.service';
+import { PaymentsService } from '../payments/payments.service';
 
 @Component({
   selector: 'checkout',
@@ -18,7 +20,7 @@ export class CheckoutComponent implements OnInit {
     paymenthMethod: null
   };
 
-  constructor(private userService: UserService) {}
+  constructor(private location: Location, private userService: UserService, private paymentsService: PaymentsService) {}
 
   ngOnInit() {
     this.userService.getUserDetails().subscribe((response) => {
@@ -38,5 +40,14 @@ export class CheckoutComponent implements OnInit {
 
   public onChoosePaymentMethod(paymenthMethod: IPaymentMethod): void {
     this.checkout = { ...this.checkout, paymenthMethod };
+  }
+
+  public initiateTransaction(): void {
+    this.paymentsService.initiateTransaction().subscribe((response) => {
+      if (response.success && response.result) {
+        window.location.href = response.result.redirectGatewayURL;
+        return true;
+      }
+    });
   }
 }

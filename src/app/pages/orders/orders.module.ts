@@ -8,16 +8,20 @@ import { SharedModule } from '../../shared/shared.module';
 const routes: Route[] = [
   {
     path: '',
-    component: OrdersComponent,
+    component: OrdersComponent
   },
   {
     path: 'checkout',
-    loadChildren: () => import('./checkout/checkout.module').then((m) => m.CheckoutModule),
+    loadChildren: () => import('./checkout/checkout.module').then((m) => m.CheckoutModule)
   },
+  {
+    path: 'payments',
+    loadChildren: () => import('./payments/payments.module').then((m) => m.PaymentsModule)
+  }
 ];
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
-  declarations: [OrdersComponent],
+  declarations: [OrdersComponent]
 })
 export class OrdersModule {}

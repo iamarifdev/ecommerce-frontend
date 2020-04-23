@@ -38,4 +38,8 @@
   <nz-tab nzTitle="Payment Method">
     <choose-payment-method (selected)="onChoosePaymentMethod($event)"></choose-payment-method>
   </nz-tab>
+
+  <nz-tab nzTitle="Pay">
+    <button nzBlock nzSize="large" nz-button (click)="initiateTransaction()">Pay Online</button>
+  </nz-tab>
 </nz-tabset>
