@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 import { IShippingMethod, IPaymentMethod } from './models';
 import { Customer } from '../../user/register/models';
@@ -20,7 +19,7 @@ export class CheckoutComponent implements OnInit {
     paymenthMethod: null
   };
 
-  constructor(private location: Location, private userService: UserService, private paymentsService: PaymentsService) {}
+  constructor(private userService: UserService, private paymentsService: PaymentsService) {}
 
   ngOnInit() {
     this.userService.getUserDetails().subscribe((response) => {
@@ -43,9 +42,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   public initiateTransaction(): void {
-    this.paymentsService.initiateTransaction().subscribe((response) => {
+    this.paymentsService.initiateTransaction(this.customer.id).subscribe((response) => {
       if (response.success && response.result) {
-        window.location.href = response.result.redirectGatewayURL;
+        window.location.href = response.result.GatewayPageURL;
         return true;
       }
     });
