@@ -5,6 +5,7 @@ import { Route, RouterModule } from '@angular/router';
 import { PaymentsComponent } from './payments.component';
 import { SuccessComponent } from './success/success.component';
 import { FailedComponent } from './failed/failed.component';
+import { SharedModule } from '../../../shared/shared.module';
 
 const routes: Route[] = [
   {
@@ -24,7 +25,8 @@ const routes: Route[] = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule
   ],
   declarations: [PaymentsComponent, SuccessComponent, FailedComponent]
 })

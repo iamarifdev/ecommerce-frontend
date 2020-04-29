@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { CheckoutService } from '../checkout.service';
-import { IShippingMethod } from '../models/shipping-method.model';
+import { ShippingMethod } from '../models/shipping-method.model';
 import { AsyncService } from '../../../../shared/services/async.service';
 
 @Component({
@@ -10,11 +10,11 @@ import { AsyncService } from '../../../../shared/services/async.service';
   styleUrls: ['./choose-shipping-method.component.scss'],
 })
 export class ChooseShippingMethodComponent implements OnInit, OnDestroy {
-  public selectedMethod: IShippingMethod;
-  public shippingMethods: IShippingMethod[] = [];
+  public selectedMethod: ShippingMethod;
+  public shippingMethods: ShippingMethod[] = [];
 
   @Output()
-  public selected = new EventEmitter<IShippingMethod>();
+  public selected = new EventEmitter<ShippingMethod>();
 
   constructor(private checkoutService: CheckoutService, private asyncService: AsyncService) {}
 
@@ -39,7 +39,7 @@ export class ChooseShippingMethodComponent implements OnInit, OnDestroy {
     );
   }
 
-  public selectShippingMethod(method: IShippingMethod): void {
+  public selectShippingMethod(method: ShippingMethod): void {
     this.selectedMethod = method;
     this.selected.emit(method);
   }

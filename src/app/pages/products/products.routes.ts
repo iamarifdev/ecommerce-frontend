@@ -5,10 +5,17 @@ import { ProductListComponent } from './product-list/product-list.component';
 export const productsRoutes: Route[] = [
   {
     path: '',
-    component: ProductsComponent
+    component: ProductsComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'list',
+      },
+      {
+        path: 'list',
+        component: ProductListComponent
+      }
+    ]
   },
-  {
-    path: 'list',
-    component: ProductListComponent
-  }
 ];

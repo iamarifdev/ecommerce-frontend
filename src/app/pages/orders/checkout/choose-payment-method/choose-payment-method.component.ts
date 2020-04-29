@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { CheckoutService } from '../checkout.service';
-import { IPaymentMethod } from '../models';
+import { PaymentMethod } from '../models';
 import { AsyncService } from '../../../../shared/services/async.service';
 
 @Component({
@@ -10,11 +10,11 @@ import { AsyncService } from '../../../../shared/services/async.service';
   styleUrls: ['./choose-payment-method.component.scss']
 })
 export class ChoosePaymentMethodComponent implements OnInit, OnDestroy {
-  public selectedMethod: IPaymentMethod;
-  public paymentMethods: IPaymentMethod[] = [];
+  public selectedMethod: PaymentMethod;
+  public paymentMethods: PaymentMethod[] = [];
 
   @Output()
-  public selected = new EventEmitter<IPaymentMethod>();
+  public selected = new EventEmitter<PaymentMethod>();
 
   constructor(private checkoutService: CheckoutService, private asyncService: AsyncService) {}
 
@@ -39,7 +39,7 @@ export class ChoosePaymentMethodComponent implements OnInit, OnDestroy {
     );
   }
 
-  public selectShippingMethod(method: IPaymentMethod): void {
+  public selectShippingMethod(method: PaymentMethod): void {
     this.selectedMethod = method;
     this.selected.emit(method);
   }

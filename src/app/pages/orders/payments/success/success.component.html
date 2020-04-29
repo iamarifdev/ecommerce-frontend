@@ -1,3 +1,12 @@
-<p>
-  success works!
-</p>
+<div class="flex flex-row cell center">
+  <nz-result
+    nzStatus="success"
+    nzTitle="Successfully ordered from eWebShop!"
+    nzSubTitle="Order number: {{ params?.orderNo }}, the order is in process, will be confirmed soon."
+  >
+    <div nz-result-extra>
+      <button nz-button nzSize="large" nzType="primary">Go to Cart</button>
+      <a routerLink="/products" nz-button nzSize="large">Purchase</a>
+    </div>
+  </nz-result>
+</div>

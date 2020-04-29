@@ -1,4 +1,4 @@
-export interface IShippingMethod {
+export interface ShippingMethod {
   id: string;
   methodName: string;
   cost: number;

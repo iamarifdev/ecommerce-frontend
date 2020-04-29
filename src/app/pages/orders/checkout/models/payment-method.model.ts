@@ -1,4 +1,4 @@
-export interface IPaymentMethod {
+export interface PaymentMethod {
   id: string;
   methodName: string;
   iconName: string;
